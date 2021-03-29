@@ -6,8 +6,8 @@
 package frc.team8588;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.team8588.commands.DriveCommand;
 import frc.team8588.subsystems.drive.DriveSubsystem;
 
 /**
@@ -19,7 +19,7 @@ import frc.team8588.subsystems.drive.DriveSubsystem;
  */
 public class Robot extends TimedRobot
 {
-    private Command autonomousCommand;
+    private DriveCommand driveCommand;
     private DriveSubsystem driveSubsystem;
     private RobotContainer robotContainer;
 
@@ -63,18 +63,20 @@ public class Robot extends TimedRobot
     @Override
     public void autonomousInit()
     {
-        autonomousCommand = robotContainer.getAutonomousCommand();
-
-        // schedule the autonomous command (example)
-        if (autonomousCommand != null)
-        {
-            autonomousCommand.schedule();
-        }
+//        driveCommand = robotContainer.getDriveCommand();
+//
+//        // schedule the autonomous command (example)
+//        if (driveCommand != null)
+//        {
+//            driveCommand.schedule();
+//        }
     }
 
     /** This method is called periodically during autonomous. */
     @Override
-    public void autonomousPeriodic() {}
+    public void autonomousPeriodic() {
+//        driveCommand.execute();
+    }
 
     @Override
     public void teleopInit()
@@ -83,15 +85,19 @@ public class Robot extends TimedRobot
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommand != null)
+        driveCommand = robotContainer.getDriveCommand();
+        if (driveCommand != null)
         {
-            autonomousCommand.cancel();
+            driveCommand.schedule();
         }
     }
 
     /** This method is called periodically during operator control. */
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+        driveCommand.setPower(robotContainer.getGamepad().getLeftX());
+        driveCommand.execute();
+    }
 
     @Override
     public void testInit()

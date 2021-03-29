@@ -7,7 +7,7 @@ package frc.team8588.usercontrol;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-public class Gamepad {
+public class GamepadF310 {
 
     /**
      * Gamepad mappings as the F310 controller isn't officially in the WPI repo.
@@ -25,7 +25,7 @@ public class Gamepad {
     private static final int GAMEPAD_DPAD_LEFT = 8; //TODO replace w/ actual
 
     private Joystick joystick;
-    public Gamepad(int port) {
+    public GamepadF310(int port) {
         joystick = new Joystick(port);
     }
 

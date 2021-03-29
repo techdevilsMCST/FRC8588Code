@@ -39,4 +39,9 @@ public class TankDriveSubsystem implements DriveSubsystem {
                 break;
         }
     }
+
+    @Override
+    public void drive(double leftX, double leftY, double rightX, double rightY) {
+
+    }
 }

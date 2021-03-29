@@ -84,5 +84,5 @@ public class GamepadF310 {
     public boolean getRightBumper() {
         return joystick.getRawButton(GAMEPAD_RIGHT_BUMPER);
     }
-    
+
 }

@@ -6,20 +6,30 @@
 package frc.team8588.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.team8588.subsystems.drive.DriveDirection;
 import frc.team8588.subsystems.drive.DriveSubsystem;
-import frc.team8588.usercontrol.GamepadF310;
 
 public class DriveCommand extends CommandBase {
 
     private DriveSubsystem subsystem;
-    private GamepadF310 gamepad;
+    double power = 0.0;
 
     public DriveCommand(DriveSubsystem subsystem) {
         this.subsystem = subsystem;
-        gamepad = new GamepadF310(0);
         addRequirements(subsystem);
     }
 
+    @Override
+    public void execute() {
+        subsystem.drive(power, DriveDirection.FORWARD);
+    }
 
+    public void setPower(double power) {
+        this.power = power;
+    }
 
+    @Override
+    public boolean isFinished() {
+        return false;
+    }
 }

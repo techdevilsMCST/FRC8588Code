@@ -15,4 +15,12 @@ public class TankDriveChassis {
         this.left = left;
         this.right = right;
     }
+
+    public PWMSparkMax getLeft() {
+        return left;
+    }
+
+    public PWMSparkMax getRight() {
+        return right;
+    }
 }

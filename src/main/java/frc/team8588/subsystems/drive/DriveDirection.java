@@ -5,6 +5,6 @@ public enum DriveDirection {
     RIGHT,
     FORWARD,
     BACKWARD,
-    TURN_CC,
+    TURN_CW,
     TURN_CCW,
 }

@@ -5,9 +5,13 @@
 
 package frc.team8588;
 
+import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.team8588.commands.ExampleCommand;
-import frc.team8588.subsystems.ExampleSubsystem;
+import frc.team8588.commands.DriveCommand;
+import frc.team8588.subsystems.drive.DriveSubsystem;
+import frc.team8588.subsystems.drive.tank.TankDriveChassis;
+import frc.team8588.subsystems.drive.tank.TankDriveSubsystem;
+import frc.team8588.usercontrol.GamepadF310;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -18,10 +22,9 @@ import frc.team8588.subsystems.ExampleSubsystem;
 public class RobotContainer
 {
     // The robot's subsystems and commands are defined here...
-    private final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-
-    private final ExampleCommand autonomousCommand = new ExampleCommand(exampleSubsystem);
-
+    private DriveSubsystem driveSubsystem = new TankDriveSubsystem(new TankDriveChassis(new PWMSparkMax(0), new PWMSparkMax(1)));
+    private DriveCommand driveCommand = new DriveCommand(driveSubsystem);
+    private GamepadF310 gamepad = new GamepadF310(0);
 
     /** The container for the robot.  Contains subsystems, OI devices, and commands. */
     public RobotContainer()
@@ -39,18 +42,25 @@ public class RobotContainer
      */
     private void configureButtonBindings()
     {
-        
+
     }
 
+    public DriveSubsystem getDriveSubsystem() {
+        return driveSubsystem;
+    }
+
+    public GamepadF310 getGamepad() {
+        return gamepad;
+    }
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
      * @return the command to run in autonomous
      */
-    public Command getAutonomousCommand()
+    public DriveCommand getDriveCommand()
     {
         // An ExampleCommand will run in autonomous
-        return autonomousCommand;
+        return driveCommand;
     }
 }

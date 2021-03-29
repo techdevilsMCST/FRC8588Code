@@ -15,14 +15,22 @@ public class GamepadF310 {
      * The variable names should be pretty self-explanatory as to what each number
      * represents.
      */
-    private static final int GAMEPAD_LEFT_X = 1; //TODO replace w/ actual
-    private static final int GAMEPAD_LEFT_Y = 2; //TODO replace w/ actual
-    private static final int GAMEPAD_RIGHT_X = 3; //TODO replace w/ actual
-    private static final int GAMEPAD_RIGHT_Y = 4; //TODO replace w/ actual
-    private static final int GAMEPAD_DPAD_UP = 5; //TODO replace w/ actual
-    private static final int GAMEPAD_DPAD_RIGHT = 6; //TODO replace w/ actual
-    private static final int GAMEPAD_DPAD_DOWN = 7; //TODO replace w/ actual
-    private static final int GAMEPAD_DPAD_LEFT = 8; //TODO replace w/ actual
+    private static final int GAMEPAD_LEFT_X = 0;
+    private static final int GAMEPAD_LEFT_Y = 1;
+    private static final int GAMEPAD_RIGHT_X = 4;
+    private static final int GAMEPAD_RIGHT_Y = 5;
+
+    private static final int GAMEPAD_LEFT_TRIGGER = 2;
+    private static final int GAMEPAD_RIGHT_TRIGGER = 3;
+
+    private static final int GAMEPAD_A = 1;
+    private static final int GAMEPAD_B = 2;
+    private static final int GAMEPAD_X = 3;
+    private static final int GAMEPAD_Y = 4;
+
+    private static final int GAMEPAD_LEFT_BUMPER = 5;
+    private static final int GAMEPAD_RIGHT_BUMPER = 6;
+
 
     private Joystick joystick;
     public GamepadF310(int port) {
@@ -45,19 +53,36 @@ public class GamepadF310 {
         return joystick.getRawAxis(GAMEPAD_RIGHT_Y);
     }
 
-    public boolean dpadUp() {
-        return joystick.getRawButton(GAMEPAD_DPAD_UP);
+    public double getRightTrigger() {
+        return joystick.getRawAxis(GAMEPAD_RIGHT_TRIGGER);
     }
 
-    public boolean dpadRight() {
-        return joystick.getRawButton(GAMEPAD_DPAD_RIGHT);
+    public double getLeftTrigger() {
+        return joystick.getRawAxis(GAMEPAD_LEFT_TRIGGER);
     }
 
-    public boolean dpadDown() {
-        return joystick.getRawButton(GAMEPAD_DPAD_DOWN);
+    public boolean getA() {
+        return joystick.getRawButton(GAMEPAD_A);
     }
 
-    public boolean dpadLeft() {
-        return joystick.getRawButton(GAMEPAD_DPAD_LEFT);
+    public boolean getB() {
+        return joystick.getRawButton(GAMEPAD_B);
     }
+
+    public boolean getX() {
+        return joystick.getRawButton(GAMEPAD_X);
+    }
+
+    public boolean getY() {
+        return joystick.getRawButton(GAMEPAD_Y);
+    }
+
+    public boolean getLeftBumper() {
+        return joystick.getRawButton(GAMEPAD_LEFT_BUMPER);
+    }
+
+    public boolean getRightBumper() {
+        return joystick.getRawButton(GAMEPAD_RIGHT_BUMPER);
+    }
+    
 }

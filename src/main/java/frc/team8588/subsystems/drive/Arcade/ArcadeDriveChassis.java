@@ -6,8 +6,7 @@ Check out ArcadeDriveSubsystem and other subsystems.
 Date: 3/29/2021
  */
 
-frc.team8588.subsystems.drive.Arcade;
-package frc.team8588.subsystems.drive.Arcade;
+package frc.team8588.subsystems.drive.arcade;
 
 import edu.wpi.first.wpilibj.PWMSparkMax;
 

@@ -11,9 +11,11 @@ import frc.team8588.subsystems.drive.DriveSubsystem;
 public class TankDriveSubsystem implements DriveSubsystem {
 
     private TankDriveChassis chassis;
+    private TankDriveInputs inputs;
 
-    public TankDriveSubsystem(TankDriveChassis chassis) {
+    public TankDriveSubsystem(TankDriveChassis chassis, TankDriveInputs inputs) {
         this.chassis = chassis;
+        this.inputs = inputs;
     }
 
     @Override
@@ -38,6 +40,12 @@ public class TankDriveSubsystem implements DriveSubsystem {
                 chassis.getRight().setSpeed(power);
                 break;
         }
+    }
+
+    @Override
+    public void setPowers() {
+        chassis.getLeft().setSpeed(inputs.leftStickY.get());
+        chassis.getRight().setSpeed(inputs.rightStickY.get());
     }
 
     @Override

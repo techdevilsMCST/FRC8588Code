@@ -11,4 +11,6 @@ public interface DriveSubsystem extends Subsystem {
     void drive(double power, DriveDirection direction);
 
     void drive(double leftX, double leftY, double rightX, double rightY);
+
+    void setPowers();
 }

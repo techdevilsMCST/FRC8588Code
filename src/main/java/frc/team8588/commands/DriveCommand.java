@@ -13,7 +13,9 @@ public class DriveCommand extends CommandBase {
 
     private DriveSubsystem subsystem;
     double power = 0.0;
-
+    DriveDirection direction = DriveDirection.FORWARD;
+    double lPower = 0.0;
+    double rPower = 0.0;
     public DriveCommand(DriveSubsystem subsystem) {
         this.subsystem = subsystem;
         addRequirements(subsystem);
@@ -21,11 +23,24 @@ public class DriveCommand extends CommandBase {
 
     @Override
     public void execute() {
-        subsystem.drive(power, DriveDirection.FORWARD);
+        subsystem.setPowers();
     }
 
     public void setPower(double power) {
         this.power = power;
+    }
+
+    public void setLeft(double power) {
+        lPower = power;
+    }
+
+    public void setRight(double power){
+        rPower = power;
+    }
+
+    public void setPower(double speed, DriveDirection direction) {
+        this.direction = direction;
+        this.power = speed;
     }
 
     @Override

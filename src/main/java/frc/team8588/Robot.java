@@ -8,6 +8,7 @@ package frc.team8588;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.team8588.commands.DriveCommand;
+import frc.team8588.subsystems.drive.DriveDirection;
 import frc.team8588.subsystems.drive.DriveSubsystem;
 
 /**
@@ -95,7 +96,8 @@ public class Robot extends TimedRobot
     /** This method is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-        driveCommand.setPower(robotContainer.getGamepad().getLeftX());
+        driveCommand.setLeft(robotContainer.getGamepad().getLeftY());
+        driveCommand.setRight(robotContainer.getGamepad().getRightY());
         driveCommand.execute();
     }
 

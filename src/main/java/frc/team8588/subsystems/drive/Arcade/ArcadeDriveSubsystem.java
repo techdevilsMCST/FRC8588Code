@@ -21,9 +21,11 @@ import frc.team8588.usercontrol.GamepadF310;
 
 public class ArcadeDriveSubsystem implements DriveSubsystem {
     private ArcadeDriveChassis chassis;
+    private ArcadeDriveInputs inputs;
 
-    public ArcadeDriveSubsystem(ArcadeDriveChassis chassis) {
+    public ArcadeDriveSubsystem(ArcadeDriveChassis chassis, ArcadeDriveInputs inputs) {
         this.chassis = chassis;
+        this.inputs = inputs;
     }
 
     @Override
@@ -38,7 +40,8 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
 
     @Override
     public void setPowers() {
-
+        chassis.getLeft().setSpeed(inputs.xStick.get() + inputs.yStick.get());
+        chassis.getRight().setSpeed(inputs.xStick.get() - inputs.yStick.get());
     }
 
     // method needs to take in x and y of one joystick.  Also needs to take in power.

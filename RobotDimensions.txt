@@ -1,0 +1,3 @@
+Width: 18.25
+Front end to the motor: 10.25
+Length: 32

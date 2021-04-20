@@ -44,8 +44,8 @@ public class TankDriveSubsystem implements DriveSubsystem {
 
     @Override
     public void setPowers() {
-        chassis.getLeft().setSpeed(inputs.leftStickY.get());
-        chassis.getRight().setSpeed(inputs.rightStickY.get());
+        chassis.getLeft().setSpeed(-inputs.rightStickY.get());
+        chassis.getRight().setSpeed(inputs.leftStickY.get());
     }
 
     @Override

@@ -36,6 +36,11 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
 
     }
 
+    @Override
+    public void setPowers() {
+
+    }
+
     // method needs to take in x and y of one joystick.  Also needs to take in power.
     // then needs to change direction according to that.
 }

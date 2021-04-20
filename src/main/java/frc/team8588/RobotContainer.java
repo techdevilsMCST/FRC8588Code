@@ -26,7 +26,7 @@ public class RobotContainer
     private GamepadF310 gamepad = new GamepadF310(0);
     private TankDriveSubsystem driveSubsystem = new TankDriveSubsystem(
             new TankDriveChassis(new PWMSparkMax(0), new PWMSparkMax(1)),
-            new TankDriveInputs(gamepad::getLeftY, gamepad::getLeftX));
+            new TankDriveInputs(gamepad::getLeftY, gamepad::getRightY));
     private DriveCommand driveCommand = new DriveCommand(driveSubsystem);
 
     /** The container for the robot.  Contains subsystems, OI devices, and commands. */

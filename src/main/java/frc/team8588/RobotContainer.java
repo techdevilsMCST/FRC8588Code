@@ -9,6 +9,9 @@ import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.team8588.commands.DriveCommand;
 import frc.team8588.subsystems.drive.DriveSubsystem;
+import frc.team8588.subsystems.drive.arcade.ArcadeDriveChassis;
+import frc.team8588.subsystems.drive.arcade.ArcadeDriveInputs;
+import frc.team8588.subsystems.drive.arcade.ArcadeDriveSubsystem;
 import frc.team8588.subsystems.drive.tank.TankDriveChassis;
 import frc.team8588.subsystems.drive.tank.TankDriveInputs;
 import frc.team8588.subsystems.drive.tank.TankDriveSubsystem;
@@ -24,9 +27,12 @@ public class RobotContainer
 {
     // The robot's subsystems and commands are defined here...
     private GamepadF310 gamepad = new GamepadF310(0);
-    private TankDriveSubsystem driveSubsystem = new TankDriveSubsystem(
-            new TankDriveChassis(new PWMSparkMax(0), new PWMSparkMax(1)),
-            new TankDriveInputs(gamepad::getLeftY, gamepad::getRightY));
+//    private DriveSubsystem driveSubsystem = new TankDriveSubsystem(
+//            new TankDriveChassis(new PWMSparkMax(0), new PWMSparkMax(1)),
+//            new TankDriveInputs(gamepad::getLeftY, gamepad::getRightY));
+    private DriveSubsystem driveSubsystem = new ArcadeDriveSubsystem(
+        new ArcadeDriveChassis(new PWMSparkMax(0), new PWMSparkMax(1)),
+        new ArcadeDriveInputs(gamepad::getLeftX, gamepad::getLeftY));
     private DriveCommand driveCommand = new DriveCommand(driveSubsystem);
 
     /** The container for the robot.  Contains subsystems, OI devices, and commands. */

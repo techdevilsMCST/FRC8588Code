@@ -11,12 +11,10 @@ Date: 3/29/2021
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.team8588.subsystems.drive.Arcade;
+package frc.team8588.subsystems.drive.arcade;
 
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.team8588.subsystems.drive.DriveDirection;
 import frc.team8588.subsystems.drive.DriveSubsystem;
-import frc.team8588.usercontrol.GamepadF310;
 
 
 public class ArcadeDriveSubsystem implements DriveSubsystem {

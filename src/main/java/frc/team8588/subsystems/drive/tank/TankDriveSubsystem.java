@@ -13,6 +13,9 @@ public class TankDriveSubsystem implements DriveSubsystem {
     private TankDriveChassis chassis;
     private TankDriveInputs inputs;
 
+    private static final double functionEndPoint = 0.5;
+    private double accelAmount = 0.5;
+
     public TankDriveSubsystem(TankDriveChassis chassis, TankDriveInputs inputs) {
         this.chassis = chassis;
         this.inputs = inputs;
@@ -42,10 +45,35 @@ public class TankDriveSubsystem implements DriveSubsystem {
         }
     }
 
+    public double getCurInput(double x) {
+        double finReturn = 0;
+        long curTime = System.currentTimeMillis();
+        long neededTime = curTime + (long)(accelAmount * 1000);
+        while (System.currentTimeMillis() < neededTime) {
+            if (Math.abs(x) < functionEndPoint) {
+                finReturn = 4 * Math.pow(x * ((System.currentTimeMillis() - curTime) / accelAmount * 1000), 3); // Gets the percentage of time to desirted input.
+            }else {
+                finReturn = x;
+            }
+        }
+        if (Math.abs(x) < functionEndPoint) {
+            finReturn = 4 * Math.pow(x, 3);
+        }else {
+            finReturn = x;
+        }
+        return finReturn;
+        /*execute.schedule(() -> {
+            curInput -
+        }, 10, TimeUnit.MILLISECONDS);*/
+    }
+
     @Override
     public void setPowers() {
-        chassis.getLeft().setSpeed(-inputs.rightStickY.get());
-        chassis.getRight().setSpeed(inputs.leftStickY.get());
+
+
+
+        chassis.getLeft().setSpeed(getCurInput(-inputs.rightStickY.get()));
+        chassis.getRight().setSpeed(getCurInput(inputs.leftStickY.get()));
     }
 
     @Override

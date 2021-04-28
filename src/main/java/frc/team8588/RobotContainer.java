@@ -27,12 +27,12 @@ public class RobotContainer
 {
     // The robot's subsystems and commands are defined here...
     private GamepadF310 gamepad = new GamepadF310(0);
-//    private DriveSubsystem driveSubsystem = new TankDriveSubsystem(
-//            new TankDriveChassis(new PWMSparkMax(0), new PWMSparkMax(1)),
-//            new TankDriveInputs(gamepad::getLeftY, gamepad::getRightY));
-    private DriveSubsystem driveSubsystem = new ArcadeDriveSubsystem(
-        new ArcadeDriveChassis(new PWMSparkMax(0), new PWMSparkMax(1)),
-        new ArcadeDriveInputs(gamepad::getLeftX, gamepad::getLeftY));
+    private DriveSubsystem driveSubsystem = new TankDriveSubsystem(
+            new TankDriveChassis(new PWMSparkMax(0), new PWMSparkMax(1)),
+            new TankDriveInputs(gamepad::getLeftY, gamepad::getRightY));
+//    private DriveSubsystem driveSubsystem = new ArcadeDriveSubsystem(
+//        new ArcadeDriveChassis(new PWMSparkMax(0), new PWMSparkMax(1)),
+//        new ArcadeDriveInputs(gamepad::getLeftX, gamepad::getLeftY));
     private DriveCommand driveCommand = new DriveCommand(driveSubsystem);
 
     /** The container for the robot.  Contains subsystems, OI devices, and commands. */

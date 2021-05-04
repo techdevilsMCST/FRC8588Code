@@ -1,4 +1,4 @@
-/****
+/**
  * Made by Tejas Mehta
  * Made on Monday, March 29, 2021
  * File Name: TankDriveSubsystem
@@ -15,6 +15,8 @@ public class TankDriveSubsystem implements DriveSubsystem {
 
     private static final double functionEndPoint = 0.5;
     private double accelAmount = 0.5;
+    private double targetAmount = 0;
+    private double currentAmount = 0;
 
     public TankDriveSubsystem(TankDriveChassis chassis, TankDriveInputs inputs) {
         this.chassis = chassis;
@@ -46,8 +48,18 @@ public class TankDriveSubsystem implements DriveSubsystem {
     }
 
     public double getCurInput(double x) {
-        double finReturn = 0;
+        targetAmount = x;
         long curTime = System.currentTimeMillis();
+        if (curTime % 100 == 0 && Math.abs(targetAmount - currentAmount) >= accelAmount) {
+            if (targetAmount < currentAmount) {
+                currentAmount -= accelAmount;
+            }else if (targetAmount > currentAmount) {
+                currentAmount += accelAmount;
+            }
+        }
+        return targetAmount;
+        /*double finReturn = 0;
+
         long neededTime = curTime + (long)(accelAmount * 1000);
         while (System.currentTimeMillis() < neededTime) {
             if (Math.abs(x) < functionEndPoint) {
@@ -61,7 +73,7 @@ public class TankDriveSubsystem implements DriveSubsystem {
         }else {
             finReturn = x;
         }
-        return finReturn;
+        return finReturn;*/
         /*execute.schedule(() -> {
             curInput -
         }, 10, TimeUnit.MILLISECONDS);*/

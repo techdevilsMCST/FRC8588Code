@@ -15,6 +15,7 @@ public class TankDriveSubsystem implements DriveSubsystem {
 
     private static final double functionEndPoint = 0.5;
     private double accelAmount = 0.5;
+    private double deccelAmount = 2;
     private double targetAmount = 0;
     private double currentAmount = 0;
 
@@ -52,7 +53,8 @@ public class TankDriveSubsystem implements DriveSubsystem {
         long curTime = System.currentTimeMillis();
         if (curTime % 100 == 0 && Math.abs(targetAmount - currentAmount) >= accelAmount) {
             if (targetAmount < currentAmount) {
-                currentAmount -= accelAmount;
+                currentAmount -= deccelAmount;
+                //JOSHUA, ALEXEI AND NEIL WERE HERE
             }else if (targetAmount > currentAmount) {
                 currentAmount += accelAmount;
             }

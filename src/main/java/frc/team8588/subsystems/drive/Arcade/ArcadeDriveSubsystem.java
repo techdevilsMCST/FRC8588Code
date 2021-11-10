@@ -70,8 +70,8 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
 
     @Override
     public void setPowers() {
-        chassis.getLeft().setSpeed(inputs.xStick.get() + inputs.yStick.get());
-        chassis.getRight().setSpeed(inputs.xStick.get() - inputs.yStick.get());
+        chassis.getLeft().setSpeed((-inputs.xStick.get() - inputs.yStick.get())/2.0);
+        chassis.getRight().setSpeed((-inputs.xStick.get() + inputs.yStick.get())/2.0);
     }
 
     // method needs to take in x and y of one joystick.  Also needs to take in power.

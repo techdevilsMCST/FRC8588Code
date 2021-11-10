@@ -14,8 +14,8 @@ public class TankDriveSubsystem implements DriveSubsystem {
     private TankDriveInputs inputs;
 
     private static final double functionEndPoint = 0.5;
-    private double accelAmount = 0.5;
-    private double deccelAmount = 2;
+    private double accelAmount = 0.001;
+    private double deccelAmount = 0.05;
     private double targetAmount = 0;
     private double currentAmount = 0;
 
@@ -51,7 +51,7 @@ public class TankDriveSubsystem implements DriveSubsystem {
     public double getCurInput(double x) {
         targetAmount = x;
         long curTime = System.currentTimeMillis();
-        if (curTime % 100 == 0 && Math.abs(targetAmount - currentAmount) >= accelAmount) {
+        if (curTime % 10 == 0 && Math.abs(targetAmount - currentAmount) >= accelAmount) {
             if (targetAmount < currentAmount) {
                 currentAmount -= deccelAmount;
                 //JOSHUA, ALEXEI AND NEIL WERE HERE

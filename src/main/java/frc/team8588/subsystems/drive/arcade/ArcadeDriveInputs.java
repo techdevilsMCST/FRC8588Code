@@ -1,4 +1,4 @@
-package frc.team8588.subsystems.drive.arcade;
+package frc.team8588.subsystems.drive.Arcade;
 
 import java.util.function.Supplier;
 

@@ -11,7 +11,7 @@ Date: 3/29/2021
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.team8588.subsystems.drive.arcade;
+package frc.team8588.subsystems.drive.Arcade;
 
 import frc.team8588.subsystems.drive.DriveDirection;
 import frc.team8588.subsystems.drive.DriveSubsystem;

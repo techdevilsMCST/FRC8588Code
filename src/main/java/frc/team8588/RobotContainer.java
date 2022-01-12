@@ -5,6 +5,8 @@
 
 package frc.team8588;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.team8588.commands.DriveCommand;
@@ -28,7 +30,7 @@ public class RobotContainer
     // The robot's subsystems and commands are defined here...
     private GamepadF310 gamepad = new GamepadF310(0);
     private DriveSubsystem driveSubsystem = new TankDriveSubsystem(
-            new TankDriveChassis(new PWMSparkMax(0), new PWMSparkMax(1)),
+            new TankDriveChassis(new CANSparkMax(0, CANSparkMaxLowLevel.MotorType.kBrushless), new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless)),
             new TankDriveInputs(gamepad::getLeftY, gamepad::getRightY));
 //    private DriveSubsystem driveSubsystem = new ArcadeDriveSubsystem(
 //        new ArcadeDriveChassis(new PWMSparkMax(0), new PWMSparkMax(1)),

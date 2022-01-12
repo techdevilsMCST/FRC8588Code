@@ -28,22 +28,22 @@ public class TankDriveSubsystem implements DriveSubsystem {
     public void drive(double power, DriveDirection direction) {
         switch (direction) {
             case FORWARD:
-                chassis.getLeft().setSpeed(power);
-                chassis.getRight().setSpeed(-power);
+                chassis.getLeft().set(power);
+                chassis.getRight().set(-power);
                 break;
             case BACKWARD:
-                chassis.getLeft().setSpeed(-power);
-                chassis.getRight().setSpeed(power);
+                chassis.getLeft().set(-power);
+                chassis.getRight().set(power);
                 break;
             case LEFT:
             case TURN_CCW:
-                chassis.getLeft().setSpeed(-power);
-                chassis.getRight().setSpeed(-power);
+                chassis.getLeft().set(-power);
+                chassis.getRight().set(-power);
                 break;
             case RIGHT:
             case TURN_CW:
-                chassis.getLeft().setSpeed(power);
-                chassis.getRight().setSpeed(power);
+                chassis.getLeft().set(power);
+                chassis.getRight().set(power);
                 break;
         }
     }
@@ -83,15 +83,15 @@ public class TankDriveSubsystem implements DriveSubsystem {
 
     @Override
     public void setPowers() {
-
-
-
-        chassis.getLeft().setSpeed(getCurInput(-inputs.rightStickY.get()));
-        chassis.getRight().setSpeed(getCurInput(inputs.leftStickY.get()));
+        chassis.getLeft().set(getCurInput(-inputs.rightStickY.get()));
+        chassis.getRight().set(getCurInput(inputs.leftStickY.get()));
+        System.out.println("Current power for left: " + inputs.leftStickY.get());
     }
 
     @Override
     public void drive(double leftX, double leftY, double rightX, double rightY) {
 
     }
+
+
 }

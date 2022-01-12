@@ -5,22 +5,24 @@
  * Package: frc.team8588.subsystems.drive.tank*/
 package frc.team8588.subsystems.drive.tank;
 
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj.PWMSparkMax;
 
 public class TankDriveChassis {
 
-    private PWMSparkMax left, right;
+    private CANSparkMax left, right;
 
-    public TankDriveChassis(PWMSparkMax left, PWMSparkMax right) {
+    public TankDriveChassis(CANSparkMax left, CANSparkMax right) {
         this.left = left;
         this.right = right;
+//        new CANSparkMax()
     }
 
-    public PWMSparkMax getLeft() {
+    public CANSparkMax getLeft() {
         return left;
     }
 
-    public PWMSparkMax getRight() {
+    public CANSparkMax getRight() {
         return right;
     }
 }

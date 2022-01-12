@@ -17,7 +17,6 @@ public class TankDriveChassis {
         this.frontLeft = frontLeft;
         this.backRight = backRight;
         this.backLeft = backLeft;
-//        new CANSparkMax()
     }
 
     public CANSparkMax getFrontRight() {

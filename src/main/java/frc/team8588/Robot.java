@@ -5,7 +5,6 @@
 
 package frc.team8588;
 
-import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.team8588.commands.DriveCommand;
@@ -35,6 +34,7 @@ public class Robot extends TimedRobot
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         robotContainer = new RobotContainer();
+
     }
 
     /**
@@ -98,14 +98,11 @@ public class Robot extends TimedRobot
     @Override
     public void teleopPeriodic() {
 
-
         driveCommand.setLeft(robotContainer.getGamepad().getLeftY());
         driveCommand.setRight(robotContainer.getGamepad().getRightY());
         driveCommand.execute();
 
         //debugging the navX sensor
-        int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
-        System.out.println(dev);
     }
 
     @Override

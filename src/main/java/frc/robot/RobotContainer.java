@@ -12,6 +12,9 @@ import frc.robot.team8588.subsystems.drive.DriveSubsystem;
 import frc.robot.team8588.subsystems.drive.mecanum.MecanumDriveChassis;
 import frc.robot.team8588.subsystems.drive.mecanum.MecanumDriveInputs;
 import frc.robot.team8588.subsystems.drive.mecanum.MecanumDriveSubsystem;
+import frc.robot.team8588.subsystems.drive.tank.TankDriveChassis;
+import frc.robot.team8588.subsystems.drive.tank.TankDriveInputs;
+import frc.robot.team8588.subsystems.drive.tank.TankDriveSubsystem;
 import frc.robot.team8588.usercontrol.GamepadF310;
 
 
@@ -25,14 +28,14 @@ public class RobotContainer
 {
     // The robot's subsystems and commands are defined here...
     private GamepadF310 gamepad = new GamepadF310(0);
-    private DriveSubsystem driveSubsystem = new MecanumDriveSubsystem(
-                new MecanumDriveChassis(
+    private DriveSubsystem driveSubsystem = new TankDriveSubsystem(
+                new TankDriveChassis(
                         new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless),
                         new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless),
                         new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless),
                         new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless)
                 ),
-                new MecanumDriveInputs(gamepad::getLeftY, gamepad::getLeftX, gamepad::getRightX));
+                new TankDriveInputs(gamepad::getLeftY, gamepad::getLeftX));
 
     private DriveCommand driveCommand = new DriveCommand(driveSubsystem);
 

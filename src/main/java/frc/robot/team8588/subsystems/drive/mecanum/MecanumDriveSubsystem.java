@@ -28,6 +28,14 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
     @Override
     public void drive(double power, DriveDirection direction) {
         // TODO
+        switch (direction)
+        {
+            case LEFT:
+                break;
+
+            case RIGHT:
+                break;
+        }
     }
 
     @Override

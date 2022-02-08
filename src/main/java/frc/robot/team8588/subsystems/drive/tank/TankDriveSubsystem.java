@@ -6,6 +6,8 @@
 package frc.robot.team8588.subsystems.drive.tank;
 
 
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.team8588.subsystems.drive.DriveDirection;
 import frc.robot.team8588.subsystems.drive.DriveSubsystem;
 
@@ -13,6 +15,7 @@ public class TankDriveSubsystem implements DriveSubsystem {
 
     private TankDriveChassis chassis;
     private TankDriveInputs inputs;
+    private DifferentialDrive drive;
 
     private static final double functionEndPoint = 0.5;
     private double accelAmount = 0.001;
@@ -23,6 +26,17 @@ public class TankDriveSubsystem implements DriveSubsystem {
     public TankDriveSubsystem(TankDriveChassis chassis, TankDriveInputs inputs) {
         this.chassis = chassis;
         this.inputs = inputs;
+        this.drive = new DifferentialDrive(
+                new MotorControllerGroup(
+                        chassis.getFrontLeft(),
+                        chassis.getBackLeft()
+                ),
+                new MotorControllerGroup(
+                        chassis.getFrontRight(),
+                        chassis.getBackRight()
+                )
+        );
+
     }
 
     @Override
@@ -90,12 +104,14 @@ public class TankDriveSubsystem implements DriveSubsystem {
 
     @Override
     public void setPowers() {
-        chassis.getFrontLeft().set(getCurInput(-inputs.rightStickY.get()));
+        /*chassis.getFrontLeft().set(getCurInput(-inputs.rightStickY.get()));
         chassis.getBackLeft().set(getCurInput(-inputs.rightStickY.get()));
 
         chassis.getFrontRight().set(getCurInput(inputs.leftStickY.get()));
         chassis.getBackRight().set(getCurInput(inputs.leftStickY.get()));
-        System.out.println("Current power for left: " + inputs.leftStickY.get());
+        System.out.println("Current power for left: " + inputs.leftStickY.get());*/
+
+        drive.tankDrive(inputs.leftStickY.get(), inputs.rightStickY.get());
     }
 
     @Override

@@ -26,6 +26,7 @@ public class TankDriveSubsystem implements DriveSubsystem {
     public TankDriveSubsystem(TankDriveChassis chassis, TankDriveInputs inputs) {
         this.chassis = chassis;
         this.inputs = inputs;
+        //creating 2 direction differential drive with motor controller groups
         this.drive = new DifferentialDrive(
                 new MotorControllerGroup(
                         chassis.getFrontLeft(),

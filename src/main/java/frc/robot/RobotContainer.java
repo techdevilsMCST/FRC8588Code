@@ -30,12 +30,12 @@ public class RobotContainer
     private GamepadF310 gamepad = new GamepadF310(0);
     private DriveSubsystem driveSubsystem = new TankDriveSubsystem(
                 new TankDriveChassis(
-                        new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless),
-                        new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless),
-                        new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless),
-                        new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless)
+                        new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushed),
+                        new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushed),
+                        new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushed),
+                        new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushed)
                 ),
-                new TankDriveInputs(gamepad::getLeftY, gamepad::getLeftX));
+                new TankDriveInputs(gamepad::getLeftY, gamepad::getRightY));
 
     private DriveCommand driveCommand = new DriveCommand(driveSubsystem);
 

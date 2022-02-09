@@ -107,8 +107,6 @@ public class Robot extends TimedRobot
     @Override
     public void teleopPeriodic() {
 
-        driveCommand.setLeft(robotContainer.getGamepad().getLeftY());
-        driveCommand.setRight(robotContainer.getGamepad().getRightY());
         driveCommand.execute();
 
         /* Display 6-axis Processed Angle Data                                      */

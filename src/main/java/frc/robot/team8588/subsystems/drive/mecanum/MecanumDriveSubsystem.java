@@ -17,6 +17,7 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
 
     public MecanumDriveSubsystem(MecanumDriveChassis chassis, MecanumDriveInputs inputs) {
         this.inputs = inputs;
+
         this.drive = new MecanumDrive(
                 chassis.getFrontLeft(),
                 chassis.getBackLeft(),

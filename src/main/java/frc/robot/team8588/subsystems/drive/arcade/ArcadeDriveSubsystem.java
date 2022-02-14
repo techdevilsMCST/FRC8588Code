@@ -13,6 +13,7 @@ Date: 3/29/2021
 
 package frc.robot.team8588.subsystems.drive.arcade;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.team8588.subsystems.drive.DriveDirection;
 import frc.robot.team8588.subsystems.drive.DriveSubsystem;
 
@@ -85,6 +86,11 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
 
         chassis.getBackRight().set(-(forward + turn));
         chassis.getFrontRight().set(-(forward + turn));
+
+        SmartDashboard.putNumber("Front Right ESC: ", chassis.getFrontRight().getMotorTemperature());
+        SmartDashboard.putNumber("Front Left ESC: ", chassis.getFrontLeft().getMotorTemperature());
+        SmartDashboard.putNumber("Back Right ESC: ", chassis.getBackRight().getMotorTemperature());
+        SmartDashboard.putNumber("Back Left ESC: ", chassis.getBackLeft().getMotorTemperature());
     }
 
     // method needs to take in x and y of one joystick.  Also needs to take in power.

@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.team8588.commands.DriveCommand;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.team8588.subsystems.drive.DriveDirection;
+import frc.robot.team8588.subsystems.drive.DriveSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -27,6 +29,8 @@ public class Robot extends TimedRobot
     private RobotContainer robotContainer;
     private AHRS ahrs;
 
+    private DriveSubsystem subsystem;
+
     private Timer timer;
 
     /**
@@ -39,6 +43,7 @@ public class Robot extends TimedRobot
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         robotContainer = new RobotContainer();
+        subsystem = robotContainer.getDriveSubsystem();
         timer = new Timer();
 
         try {
@@ -174,7 +179,14 @@ public class Robot extends TimedRobot
     /** This method is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
-//        driveCommand.execute();
+
+        //example auton
+        if(timer.get()<2) {
+            subsystem.drive(0.3, DriveDirection.FORWARD);
+        }
+        else {
+            subsystem.drive(0, DriveDirection.FORWARD);
+        }
     }
 
     @Override

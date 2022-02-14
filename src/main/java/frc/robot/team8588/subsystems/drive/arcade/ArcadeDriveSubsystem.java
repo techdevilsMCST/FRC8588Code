@@ -27,9 +27,34 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
         this.inputs = inputs;
     }
 
+    private void setMotors(double left, double right) {
+        chassis.getBackLeft().set(left);
+        chassis.getFrontLeft().set(left);
+
+        chassis.getBackRight().set(-(right));
+        chassis.getFrontRight().set(-(right));
+    }
+
     @Override
     public void drive(double power, DriveDirection direction) {
+        switch (direction)
+        {
+            case FORWARD:
+                setMotors(-power, -power);
+                break;
 
+            case BACKWARD:
+                setMotors(power, power);
+                break;
+
+            case RIGHT:
+                setMotors(-power, power);
+                break;
+
+            case LEFT:
+                setMotors(power, -power);
+                break;
+        }
     }
 
     @Override

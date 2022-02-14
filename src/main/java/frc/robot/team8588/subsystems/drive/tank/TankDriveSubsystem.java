@@ -121,11 +121,11 @@ public class TankDriveSubsystem implements DriveSubsystem {
         boolean leftNegative = left < 0;
         boolean rightNegative = right < 0;
 
-        left = (left * left * left);
+        left = (left * left * left) / 4;
         //if(leftNegative)
             //left *= -1;
 
-        right = (right * right * right);
+        right = (right * right * right) / 4;
         //if(rightNegative)
             //right *= -1;
         /*

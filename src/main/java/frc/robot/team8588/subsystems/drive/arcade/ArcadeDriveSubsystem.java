@@ -73,6 +73,10 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
         double forward = inputs.yStick.get();
         double turn = inputs.xStick.get();
 
+        forward = forward * forward * forward;
+        turn = turn * turn * turn;
+        // curve movement
+
         chassis.getBackLeft().set(forward - turn);
         chassis.getFrontLeft().set(forward - turn);
 

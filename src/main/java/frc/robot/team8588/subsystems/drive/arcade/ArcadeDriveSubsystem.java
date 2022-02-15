@@ -112,13 +112,20 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
         chassis.getBackRight().set(-(forward + turn));
         chassis.getFrontRight().set(-(forward + turn));
 
-        SmartDashboard.putNumber("Front Right ESC: ", chassis.getFrontRight().getMotorTemperature());
+        /* SmartDashboard.putNumber("Front Right ESC: ", chassis.getFrontRight().getMotorTemperature());
         SmartDashboard.putNumber("Front Left ESC: ", chassis.getFrontLeft().getMotorTemperature());
         SmartDashboard.putNumber("Back Right ESC: ", chassis.getBackRight().getMotorTemperature());
-        SmartDashboard.putNumber("Back Left ESC: ", chassis.getBackLeft().getMotorTemperature());
+        SmartDashboard.putNumber("Back Left ESC: ", chassis.getBackLeft().getMotorTemperature()); */
+
+        SmartDashboard.putNumber("Total Current Draw: ", returnCurrentDraw());
     }
 
     // method needs to take in x and y of one joystick.  Also needs to take in power.
     // then needs to change direction according to that.
+
+    // idk what to do about this one - val
+    public double returnCurrentDraw() {
+        return chassis.getBackLeft().getOutputCurrent() + chassis.getBackRight().getOutputCurrent() + chassis.getFrontLeft().getOutputCurrent() + chassis.getFrontRight().getOutputCurrent();
+    }
 }
 

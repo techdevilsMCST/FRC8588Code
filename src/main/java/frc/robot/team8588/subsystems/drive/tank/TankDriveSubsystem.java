@@ -19,7 +19,7 @@ public class TankDriveSubsystem implements DriveSubsystem {
 
     private static final double functionEndPoint = 0.5;
     private double accelAmount = 0.001;
-    private double deccelAmount = 0.05;
+    private double deccelAmount = 0.05; 
     private double targetAmount = 0;
     private double currentAmount = 0;
 

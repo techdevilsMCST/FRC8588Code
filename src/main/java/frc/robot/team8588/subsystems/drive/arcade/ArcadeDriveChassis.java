@@ -9,22 +9,28 @@ Date: 3/29/2021
 package frc.robot.team8588.subsystems.drive.arcade;
 
 
-import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import com.revrobotics.CANSparkMax;
 
 public class ArcadeDriveChassis {
 
-    private PWMSparkMax left, right;
+    private CANSparkMax frontRight, frontLeft, backRight, backLeft;
 
-    public ArcadeDriveChassis(PWMSparkMax left, PWMSparkMax right) {
-        this.left = left;
-        this.right = right;
+    public ArcadeDriveChassis(CANSparkMax frontRight, CANSparkMax frontLeft, CANSparkMax backRight, CANSparkMax backLeft) {
+        this.frontRight = frontRight;
+        this.frontLeft = frontLeft;
+        this.backRight = backRight;
+        this.backLeft = backLeft;
     }
 
-    public PWMSparkMax getLeft() {
-        return left;
+    public CANSparkMax getFrontRight() {
+        return frontRight;
     }
 
-    public PWMSparkMax getRight() {
-        return right;
+    public CANSparkMax getFrontLeft() {
+        return frontLeft;
     }
+
+    public CANSparkMax getBackRight() { return backRight; }
+
+    public CANSparkMax getBackLeft() { return backLeft; }
 }

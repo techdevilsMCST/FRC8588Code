@@ -13,6 +13,7 @@ Date: 3/29/2021
 
 package frc.robot.team8588.subsystems.drive.arcade;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.team8588.subsystems.drive.DriveDirection;
 import frc.robot.team8588.subsystems.drive.DriveSubsystem;
 
@@ -26,9 +27,34 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
         this.inputs = inputs;
     }
 
+    private void setMotors(double left, double right) {
+        chassis.getBackLeft().set(left);
+        chassis.getFrontLeft().set(left);
+
+        chassis.getBackRight().set(-(right));
+        chassis.getFrontRight().set(-(right));
+    }
+
     @Override
     public void drive(double power, DriveDirection direction) {
+        switch (direction)
+        {
+            case FORWARD:
+                setMotors(-power, -power);
+                break;
 
+            case BACKWARD:
+                setMotors(power, power);
+                break;
+
+            case RIGHT:
+                setMotors(-power, power);
+                break;
+
+            case LEFT:
+                setMotors(power, -power);
+                break;
+        }
     }
 
     @Override
@@ -70,8 +96,26 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
 
     @Override
     public void setPowers() {
-        chassis.getLeft().set((-inputs.xStick.get() - inputs.yStick.get())/2.0);
-        chassis.getRight().set((-inputs.xStick.get() + inputs.yStick.get())/2.0);
+        double forward = inputs.yStick.get();
+        double turn = inputs.xStick.get();
+
+        forward /= 2.5;
+        turn /= 2.5;
+
+        //forward = forward * forward * forward;
+        //turn = turn * turn * turn;
+        // curve movement
+
+        chassis.getBackLeft().set(forward - turn);
+        chassis.getFrontLeft().set(forward - turn);
+
+        chassis.getBackRight().set(-(forward + turn));
+        chassis.getFrontRight().set(-(forward + turn));
+
+        SmartDashboard.putNumber("Front Right ESC: ", chassis.getFrontRight().getMotorTemperature());
+        SmartDashboard.putNumber("Front Left ESC: ", chassis.getFrontLeft().getMotorTemperature());
+        SmartDashboard.putNumber("Back Right ESC: ", chassis.getBackRight().getMotorTemperature());
+        SmartDashboard.putNumber("Back Left ESC: ", chassis.getBackLeft().getMotorTemperature());
     }
 
     // method needs to take in x and y of one joystick.  Also needs to take in power.

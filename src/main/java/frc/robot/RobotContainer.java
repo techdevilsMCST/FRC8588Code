@@ -7,8 +7,12 @@ package frc.robot;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import edu.wpi.first.math.controller.PIDController;
 import frc.robot.team8588.commands.DriveCommand;
 import frc.robot.team8588.subsystems.drive.DriveSubsystem;
+import frc.robot.team8588.subsystems.drive.arcade.ArcadeDriveChassis;
+import frc.robot.team8588.subsystems.drive.arcade.ArcadeDriveInputs;
+import frc.robot.team8588.subsystems.drive.arcade.ArcadeDriveSubsystem;
 import frc.robot.team8588.subsystems.drive.mecanum.MecanumDriveChassis;
 import frc.robot.team8588.subsystems.drive.mecanum.MecanumDriveInputs;
 import frc.robot.team8588.subsystems.drive.mecanum.MecanumDriveSubsystem;
@@ -28,14 +32,14 @@ public class RobotContainer
 {
     // The robot's subsystems and commands are defined here...
     private GamepadF310 gamepad = new GamepadF310(0);
-    private DriveSubsystem driveSubsystem = new TankDriveSubsystem(
-                new TankDriveChassis(
-                        new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushed),
-                        new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushed),
+    private DriveSubsystem driveSubsystem = new ArcadeDriveSubsystem(
+                new ArcadeDriveChassis(
                         new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushed),
-                        new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushed)
+                        new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushed),
+                        new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushed),
+                        new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushed)
                 ),
-                new TankDriveInputs(gamepad::getLeftY, gamepad::getRightY));
+                new ArcadeDriveInputs(gamepad::getRightX, gamepad::getLeftY));
 
     private DriveCommand driveCommand = new DriveCommand(driveSubsystem);
 

@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.team8588.commands.DriveCommand;
+import edu.wpi.first.wpilibj.Timer;
+import frc.robot.team8588.subsystems.drive.DriveDirection;
+import frc.robot.team8588.subsystems.drive.DriveSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,6 +29,10 @@ public class Robot extends TimedRobot
     private RobotContainer robotContainer;
     private AHRS ahrs;
 
+    private DriveSubsystem subsystem;
+
+    private Timer timer;
+
     /**
      * This method is run when the robot is first started up and should be used for any
      * initialization code.
@@ -36,6 +43,8 @@ public class Robot extends TimedRobot
         // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
         // autonomous chooser on the dashboard.
         robotContainer = new RobotContainer();
+        subsystem = robotContainer.getDriveSubsystem();
+        timer = new Timer();
 
         try {
             ahrs = new AHRS(SPI.Port.kMXP); //the kMXP port is the expansion port for the roborio
@@ -61,53 +70,6 @@ public class Robot extends TimedRobot
         // and running subsystem periodic() methods.  This must be called from the robot's periodic
         // block in order for anything in the Command-based framework to work.
         CommandScheduler.getInstance().run();
-    }
-
-    /** This method is called once each time the robot enters Disabled mode. */
-    @Override
-    public void disabledInit() {}
-
-    @Override
-    public void disabledPeriodic() {}
-
-    /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
-    @Override
-    public void autonomousInit()
-    {
-//        driveCommand = robotContainer.getDriveCommand();
-//
-//        // schedule the autonomous command (example)
-//        if (driveCommand != null)
-//        {
-//            driveCommand.schedule();
-//        }
-    }
-
-    /** This method is called periodically during autonomous. */
-    @Override
-    public void autonomousPeriodic() {
-//        driveCommand.execute();
-    }
-
-    @Override
-    public void teleopInit()
-    {
-        // This makes sure that the autonomous stops running when
-        // teleop starts running. If you want the autonomous to
-        // continue until interrupted by another command, remove
-        // this line or comment it out.
-        driveCommand = robotContainer.getDriveCommand();
-        if (driveCommand != null)
-        {
-            driveCommand.schedule();
-        }
-    }
-
-    /** This method is called periodically during operator control. */
-    @Override
-    public void teleopPeriodic() {
-
-        driveCommand.execute();
 
         /* Display 6-axis Processed Angle Data                                      */
         SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
@@ -189,6 +151,63 @@ public class Robot extends TimedRobot
         /* Connectivity Debugging Support                                           */
         SmartDashboard.putNumber(   "IMU_Byte_Count",       ahrs.getByteCount());
         SmartDashboard.putNumber(   "IMU_Update_Count",     ahrs.getUpdateCount());
+    }
+
+    /** This method is called once each time the robot enters Disabled mode. */
+    @Override
+    public void disabledInit() {}
+
+    @Override
+    public void disabledPeriodic() {}
+
+    /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+    @Override
+    public void autonomousInit()
+    {
+//        driveCommand = robotContainer.getDriveCommand();
+//
+//        // schedule the autonomous command (example)
+//        if (driveCommand != null)
+//        {
+//            driveCommand.schedule();
+//        }
+
+        timer.reset();
+        timer.start();
+    }
+
+    /** This method is called periodically during autonomous. */
+    @Override
+    public void autonomousPeriodic() {
+
+        //example auton
+        if(timer.get()<2) {
+            subsystem.drive(0.3, DriveDirection.FORWARD);
+        }
+        else {
+            subsystem.drive(0, DriveDirection.FORWARD);
+        }
+    }
+
+    @Override
+    public void teleopInit()
+    {
+        // This makes sure that the autonomous stops running when
+        // teleop starts running. If you want the autonomous to
+        // continue until interrupted by another command, remove
+        // this line or comment it out.
+        driveCommand = robotContainer.getDriveCommand();
+        if (driveCommand != null)
+        {
+            driveCommand.schedule();
+        }
+    }
+
+    /** This method is called periodically during operator control. */
+    @Override
+    public void teleopPeriodic() {
+
+        driveCommand.execute();
     }
 
     @Override

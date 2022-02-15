@@ -6,6 +6,8 @@
 package frc.robot.team8588.subsystems.drive.tank;
 
 
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.team8588.subsystems.drive.DriveDirection;
 import frc.robot.team8588.subsystems.drive.DriveSubsystem;
 
@@ -13,6 +15,7 @@ public class TankDriveSubsystem implements DriveSubsystem {
 
     private TankDriveChassis chassis;
     private TankDriveInputs inputs;
+    //private DifferentialDrive drive;
 
     private static final double functionEndPoint = 0.5;
     private double accelAmount = 0.001;
@@ -23,6 +26,20 @@ public class TankDriveSubsystem implements DriveSubsystem {
     public TankDriveSubsystem(TankDriveChassis chassis, TankDriveInputs inputs) {
         this.chassis = chassis;
         this.inputs = inputs;
+        //creating 2 direction differential drive with motor controller groups
+        /*
+        this.drive = new DifferentialDrive(
+                new MotorControllerGroup(
+                        chassis.getFrontLeft(),
+                        chassis.getBackLeft()
+                ),
+                new MotorControllerGroup(
+                        chassis.getFrontRight(),
+                        chassis.getBackRight()
+                )
+        );
+        */
+
     }
 
     @Override
@@ -90,12 +107,40 @@ public class TankDriveSubsystem implements DriveSubsystem {
 
     @Override
     public void setPowers() {
-        chassis.getFrontLeft().set(getCurInput(-inputs.rightStickY.get()));
+        /*chassis.getFrontLeft().set(getCurInput(-inputs.rightStickY.get()));
         chassis.getBackLeft().set(getCurInput(-inputs.rightStickY.get()));
 
         chassis.getFrontRight().set(getCurInput(inputs.leftStickY.get()));
         chassis.getBackRight().set(getCurInput(inputs.leftStickY.get()));
-        System.out.println("Current power for left: " + inputs.leftStickY.get());
+        System.out.println("Current power for left: " + inputs.leftStickY.get());*/
+
+        //putting input on a curve to prevent jerky movements
+        double left = inputs.leftStickY.get();
+        double right = inputs.rightStickY.get();
+
+        boolean leftNegative = left < 0;
+        boolean rightNegative = right < 0;
+
+        left = (left * left * left) / 4;
+        //if(leftNegative)
+            //left *= -1;
+
+        right = (right * right * right) / 4;
+        //if(rightNegative)
+            //right *= -1;
+        /*
+        chassis.getBackLeft().set(inputs.leftStickY.get());
+        chassis.getBackRight().set(-inputs.rightStickY.get());
+        chassis.getFrontLeft().set(inputs.leftStickY.get());
+        chassis.getFrontRight().set(-inputs.rightStickY.get());
+        */
+
+        chassis.getBackLeft().set(left);
+        chassis.getFrontLeft().set(left);
+
+        chassis.getBackRight().set(-right);
+        chassis.getFrontRight().set(-right);
+        //drive.tankDrive(left, right);
     }
 
     @Override

@@ -15,4 +15,6 @@ public interface DriveSubsystem extends Subsystem {
 
     void setPowers();
 
+    double returnCurrentDraw();
+
 }

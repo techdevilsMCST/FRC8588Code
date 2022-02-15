@@ -15,6 +15,7 @@ import frc.robot.team8588.commands.DriveCommand;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.team8588.subsystems.drive.DriveDirection;
 import frc.robot.team8588.subsystems.drive.DriveSubsystem;
+import frc.robot.team8588.subsystems.drive.arcade.ArcadeDriveSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -105,6 +106,8 @@ public class Robot extends TimedRobot
         /* of these errors due to single (velocity) integration and especially      */
         /* double (displacement) integration.                                       */
 
+        // Also known as "So we were right to not use that for closed-loop control"
+
         SmartDashboard.putNumber(   "Velocity_X",           ahrs.getVelocityX());
         SmartDashboard.putNumber(   "Velocity_Y",           ahrs.getVelocityY());
         SmartDashboard.putNumber(   "Displacement_X",       ahrs.getDisplacementX());
@@ -115,6 +118,7 @@ public class Robot extends TimedRobot
         /* for advanced users.  Before using this data, please consider whether     */
         /* the processed data (see above) will suit your needs.                     */
 
+        /*
         SmartDashboard.putNumber(   "RawGyro_X",            ahrs.getRawGyroX());
         SmartDashboard.putNumber(   "RawGyro_Y",            ahrs.getRawGyroY());
         SmartDashboard.putNumber(   "RawGyro_Z",            ahrs.getRawGyroZ());
@@ -124,13 +128,19 @@ public class Robot extends TimedRobot
         SmartDashboard.putNumber(   "RawMag_X",             ahrs.getRawMagX());
         SmartDashboard.putNumber(   "RawMag_Y",             ahrs.getRawMagY());
         SmartDashboard.putNumber(   "RawMag_Z",             ahrs.getRawMagZ());
-        SmartDashboard.putNumber(   "IMU_Temp_C",           ahrs.getTempC());
+        */
+
+        SmartDashboard.putNumber(   "IMU_Temp_C",           ahrs.getTempC()); // temp always nice to keep around :)
 
         /* Omnimount Yaw Axis Information                                           */
         /* For more info, see http://navx-mxp.kauailabs.com/installation/omnimount  */
+
+        /*
+        // Not sure if we need this either right now, roboRIO + navX seem to be mounted correctly
         AHRS.BoardYawAxis yaw_axis = ahrs.getBoardYawAxis();
         SmartDashboard.putString(   "YawAxisDirection",     yaw_axis.up ? "Up" : "Down" );
         SmartDashboard.putNumber(   "YawAxis",              yaw_axis.board_axis.getValue() );
+         */
 
         /* Sensor Board Information                                                 */
         SmartDashboard.putString(   "FirmwareVersion",      ahrs.getFirmwareVersion());
@@ -140,10 +150,14 @@ public class Robot extends TimedRobot
         /* orientation data.  All of the Yaw, Pitch and Roll Values can be derived  */
         /* from the Quaternions.  If interested in motion processing, knowledge of  */
         /* Quaternions is highly recommended.                                       */
+
+        /*
+        // Quaternion data is currently commented out as it's unneeded (cluttering up screen)
         SmartDashboard.putNumber(   "QuaternionW",          ahrs.getQuaternionW());
         SmartDashboard.putNumber(   "QuaternionX",          ahrs.getQuaternionX());
         SmartDashboard.putNumber(   "QuaternionY",          ahrs.getQuaternionY());
         SmartDashboard.putNumber(   "QuaternionZ",          ahrs.getQuaternionZ());
+         */
 
         /* Sensor Data Timestamp */
         SmartDashboard.putNumber(   "SensorTimestamp",		ahrs.getLastSensorTimestamp());
@@ -151,6 +165,7 @@ public class Robot extends TimedRobot
         /* Connectivity Debugging Support                                           */
         SmartDashboard.putNumber(   "IMU_Byte_Count",       ahrs.getByteCount());
         SmartDashboard.putNumber(   "IMU_Update_Count",     ahrs.getUpdateCount());
+
     }
 
     /** This method is called once each time the robot enters Disabled mode. */

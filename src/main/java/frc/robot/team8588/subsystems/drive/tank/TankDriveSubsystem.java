@@ -148,6 +148,9 @@ public class TankDriveSubsystem implements DriveSubsystem {
 
     }
 
+    public double returnCurrentDraw() {
+        return chassis.getBackLeft().getOutputCurrent() + chassis.getBackRight().getOutputCurrent() + chassis.getFrontLeft().getOutputCurrent() + chassis.getFrontRight().getOutputCurrent();
+    }
 
 }
 //jacob

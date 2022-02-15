@@ -98,9 +98,25 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
     public void setPowers() {
         double forward = inputs.yStick.get();
         double turn = inputs.xStick.get();
+        double lTrig = inputs.lTrigger.get();
+        double rTrig = inputs.rTrigger.get();
 
-        forward /= 2.5;
-        turn /= 2.5;
+        double triggerThreshold = 0.3;
+
+        // Vary power limits based on state of a trigger 
+        if (lTrig > triggerThreshold) { // 25% power
+            forward /= 4;
+            turn /= 4;
+            SmartDashboard.putNumber("Power", 25);
+        } else if (rTrig > triggerThreshold) { // 100% power
+            forward /= 1;
+            turn /= 1;
+            SmartDashboard.putNumber("Power", 100);
+        } else { // default
+            forward /= 2;
+            turn /= 2;
+            SmartDashboard.putNumber("Power", 50);
+        }
 
         //forward = forward * forward * forward;
         //turn = turn * turn * turn;
@@ -123,7 +139,7 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
     // method needs to take in x and y of one joystick.  Also needs to take in power.
     // then needs to change direction according to that.
 
-    // idk what to do about this one - val
+    // Return the power draw of all four motors.
     public double returnCurrentDraw() {
         return chassis.getBackLeft().getOutputCurrent() + chassis.getBackRight().getOutputCurrent() + chassis.getFrontLeft().getOutputCurrent() + chassis.getFrontRight().getOutputCurrent();
     }

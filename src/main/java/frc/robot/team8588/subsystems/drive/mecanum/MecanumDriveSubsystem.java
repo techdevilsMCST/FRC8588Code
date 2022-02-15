@@ -14,9 +14,12 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
 
     private MecanumDriveInputs inputs;
     private MecanumDrive drive;
+    private MecanumDriveChassis chassis;
 
     public MecanumDriveSubsystem(MecanumDriveChassis chassis, MecanumDriveInputs inputs) {
         this.inputs = inputs;
+
+        this.chassis = chassis;
 
         this.drive = new MecanumDrive(
                 chassis.getFrontLeft(),
@@ -48,5 +51,9 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
     public void setPowers() {
        drive.driveCartesian(inputs.leftStickX.get(), inputs.leftStickY.get(), inputs.rightStickX.get());
        // TODO Field-centric w/ gyro
+    }
+
+    public double returnCurrentDraw() {
+        return chassis.getBackLeft().getOutputCurrent() + chassis.getBackRight().getOutputCurrent() + chassis.getFrontLeft().getOutputCurrent() + chassis.getFrontRight().getOutputCurrent();
     }
 }

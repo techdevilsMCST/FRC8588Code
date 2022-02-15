@@ -39,7 +39,7 @@ public class RobotContainer
                         new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushed),
                         new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushed)
                 ),
-                new ArcadeDriveInputs(gamepad::getRightX, gamepad::getLeftY));
+                new ArcadeDriveInputs(gamepad::getRightX, gamepad::getLeftY, gamepad::getLeftTrigger, gamepad::getRightTrigger));
 
     private DriveCommand driveCommand = new DriveCommand(driveSubsystem);
 

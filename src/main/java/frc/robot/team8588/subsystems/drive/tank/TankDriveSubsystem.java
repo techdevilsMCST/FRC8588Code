@@ -6,6 +6,7 @@
 package frc.robot.team8588.subsystems.drive.tank;
 
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import frc.robot.team8588.subsystems.drive.DriveDirection;
@@ -146,6 +147,22 @@ public class TankDriveSubsystem implements DriveSubsystem {
     @Override
     public void drive(double leftX, double leftY, double rightX, double rightY) {
 
+    }
+
+    @Override
+    public void resetEncoders() {
+
+    }
+
+    @Override
+    public boolean moveToPosition(double location, double speed) {
+        return false;
+    }
+
+    @Override
+    public boolean moveToPosition(PIDController pid, double location, double speed) {
+
+        return false;
     }
 
     public double returnCurrentDraw() {

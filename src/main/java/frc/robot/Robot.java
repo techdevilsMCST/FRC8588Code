@@ -6,6 +6,7 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -28,11 +29,13 @@ public class Robot extends TimedRobot
 {
     private DriveCommand driveCommand;
     private RobotContainer robotContainer;
-    private AHRS ahrs;
 
     private DriveSubsystem subsystem;
 
+    //Variables for auton:
     private Timer timer;
+    private AHRS ahrs;
+    private PIDController turnPID;
 
     /**
      * This method is run when the robot is first started up and should be used for any
@@ -45,7 +48,9 @@ public class Robot extends TimedRobot
         // autonomous chooser on the dashboard.
         robotContainer = new RobotContainer();
         subsystem = robotContainer.getDriveSubsystem();
+
         timer = new Timer();
+        turnPID = new PIDController(0.015, 0.001, 0.001);
 
         try {
             ahrs = new AHRS(SPI.Port.kMXP); //the kMXP port is the expansion port for the roborio
@@ -194,14 +199,9 @@ public class Robot extends TimedRobot
     /** This method is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
+        double turnAmount = turnPID.calculate(ahrs.getRotation2d().getDegrees(), 0);
 
-        //example auton
-        if(timer.get()<2) {
-            subsystem.drive(0.3, DriveDirection.FORWARD);
-        }
-        else {
-            subsystem.drive(0, DriveDirection.FORWARD);
-        }
+        subsystem.drive(turnAmount, DriveDirection.LEFT);
     }
 
     @Override

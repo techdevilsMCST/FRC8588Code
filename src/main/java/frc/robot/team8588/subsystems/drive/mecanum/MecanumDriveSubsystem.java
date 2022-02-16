@@ -6,6 +6,7 @@
 package frc.robot.team8588.subsystems.drive.mecanum;
 
 import com.revrobotics.CANSparkMax;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import frc.robot.team8588.subsystems.drive.DriveDirection;
 import frc.robot.team8588.subsystems.drive.DriveSubsystem;
@@ -45,6 +46,21 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
     @Override
     public void drive(double leftX, double leftY, double rightX, double rightY) {
         // TODO
+    }
+
+    @Override
+    public void resetEncoders() {
+
+    }
+
+    @Override
+    public boolean moveToPosition(double location, double speed) {
+        return false;
+    }
+
+    @Override
+    public boolean moveToPosition(PIDController pid, double location, double speed) {
+        return false;
     }
 
     @Override

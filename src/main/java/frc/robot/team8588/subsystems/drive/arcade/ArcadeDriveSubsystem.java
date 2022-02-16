@@ -13,6 +13,7 @@ Date: 3/29/2021
 
 package frc.robot.team8588.subsystems.drive.arcade;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.team8588.subsystems.drive.DriveDirection;
 import frc.robot.team8588.subsystems.drive.DriveSubsystem;
@@ -92,6 +93,30 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
 
 //        chassis.getLeft.setLeft(leftX + leftY);
 //        chassis.getRight.setRight(leftX - leftY);
+    }
+
+    @Override
+    public void resetEncoders() {
+        chassis.getFrontLeft().getEncoder().setPosition(0);
+        chassis.getFrontRight().getEncoder().setPosition(0);
+
+        chassis.getBackLeft().getEncoder().setPosition(0);
+        chassis.getBackRight().getEncoder().setPosition(0);
+    }
+
+    @Override
+    public boolean moveToPosition(double location, double speed) {
+        drive(speed, DriveDirection.FORWARD);
+
+        return Math.abs(chassis.getBackLeft().getEncoder().getPosition()) > Math.abs((int)location); //use the back left encoder for position tracking (driving in a straight line, doesn't really matter which one we use for arcade)
+    }
+
+    @Override
+    public boolean moveToPosition(PIDController pid, double location, double speed) {
+        double pidSpeed = pid.calculate(chassis.getBackLeft().getEncoder().getPosition(), location) * speed;
+        drive(pidSpeed, DriveDirection.BACKWARD);
+
+        return Math.abs(chassis.getBackLeft().getEncoder().getPosition()) > Math.abs((int)location);
     }
 
     @Override

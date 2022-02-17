@@ -106,7 +106,10 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
 
     @Override
     public boolean moveToPosition(double location, double speed) {
-        drive(speed, DriveDirection.FORWARD);
+        if(location > 0)
+            drive(speed, DriveDirection.FORWARD);
+        else
+            drive(speed, DriveDirection.BACKWARD);
 
         return Math.abs(chassis.getBackLeft().getEncoder().getPosition()) > Math.abs((int)location); //use the back left encoder for position tracking (driving in a straight line, doesn't really matter which one we use for arcade)
     }

@@ -37,6 +37,8 @@ public class Robot extends TimedRobot
     private AHRS ahrs;
     private PIDController turnPID;
 
+    private int currentStep; //what step the auton is currently on
+
     /**
      * This method is run when the robot is first started up and should be used for any
      * initialization code.
@@ -55,6 +57,7 @@ public class Robot extends TimedRobot
         try {
             ahrs = new AHRS(SPI.Port.kMXP); //the kMXP port is the expansion port for the roborio
             ahrs.enableLogging(true);
+            //ahrs.calibrate(); //takes approximately 15 seconds to finish (leave commented out for now)
         }
         catch (RuntimeException ex) {
             DriverStation.reportError("Error creating navx sensor object! " + ex.getMessage(), true);
@@ -194,14 +197,37 @@ public class Robot extends TimedRobot
 
         timer.reset();
         timer.start();
+
+        currentStep = 0;
     }
 
     /** This method is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
-        double turnAmount = turnPID.calculate(ahrs.getRotation2d().getDegrees(), 0);
+        //double turnAmount = turnPID.calculate(ahrs.getRotation2d().getDegrees(), 0);
 
-        subsystem.drive(turnAmount, DriveDirection.LEFT);
+        //subsystem.drive(turnAmount, DriveDirection.LEFT);
+        double turnAmount = 0;
+        double currentAHRSRotation =ahrs.getRotation2d().getDegrees();
+
+        switch (currentStep)
+        {
+            case 0:
+                if(subsystem.moveToPosition(1000, 0.1))   {currentStep++; subsystem.resetEncoders();}
+                break;
+
+            case 1:
+                if(subsystem.moveToPosition(-1000, 0.1))  {currentStep++; subsystem.resetEncoders(); ahrs.reset();}
+                break;
+
+            case 2:
+                //turn 90 degrees
+                turnAmount = turnPID.calculate(currentAHRSRotation, 90);
+                subsystem.drive(turnAmount, DriveDirection.LEFT);
+
+                if(turnPID.getPositionError() < 5) {currentStep++; ahrs.reset();}
+                break;
+        }
     }
 
     @Override

@@ -31,15 +31,41 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
         );
     }
 
+    private void setMotors(double left, double right) {
+        chassis.getBackLeft().set(left);
+        chassis.getFrontLeft().set(left);
+
+        chassis.getBackRight().set(right);
+        chassis.getFrontRight().set(right);
+    }
+
     @Override
     public void drive(double power, DriveDirection direction) {
         // TODO
         switch (direction)
         {
-            case LEFT:
+            case FORWARD:
+                drive.driveCartesian(power, 0, 0);
+                break;
+
+            case BACKWARD:
+                drive.driveCartesian(-power, 0, 0);
                 break;
 
             case RIGHT:
+                drive.driveCartesian(0, power, 0);
+                break;
+
+            case LEFT:
+                drive.driveCartesian(0, -power, 0);
+                break;
+
+            case TURN_LEFT:
+                drive.driveCartesian(0, 0, -power);
+                break;
+
+            case TURN_RIGHT:
+                drive.driveCartesian(0, 0, power);
                 break;
         }
     }
@@ -51,17 +77,31 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
 
     @Override
     public void resetEncoders() {
+        chassis.getFrontLeft().getEncoder().setPosition(0);
+        chassis.getFrontRight().getEncoder().setPosition(0);
 
+        chassis.getBackLeft().getEncoder().setPosition(0);
+        chassis.getBackRight().getEncoder().setPosition(0);
     }
 
     @Override
     public boolean moveToPosition(double location, double speed) {
-        return false;
+        if(location > 0)
+            drive(speed, DriveDirection.FORWARD);
+        else
+            drive(speed, DriveDirection.BACKWARD);
+
+        double position = Math.abs(chassis.getBackLeft().getEncoder().getPosition());
+
+        return position >= Math.abs((int)location); //use the back left encoder for position tracking (driving in a straight line, doesn't really matter which one we use for arcade)
     }
 
     @Override
     public boolean moveToPosition(PIDController pid, double location, double speed) {
-        return false;
+        double currentLocation = chassis.getBackLeft().getEncoder().getPosition();
+        double finalSpeed = Math.min(1, Math.max(0.10, pid.calculate(currentLocation, location))) * speed;
+
+        return moveToPosition(location, finalSpeed);
     }
 
     @Override
@@ -93,5 +133,10 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
 
     public double returnCurrentDraw() {
         return chassis.getBackLeft().getOutputCurrent() + chassis.getBackRight().getOutputCurrent() + chassis.getFrontLeft().getOutputCurrent() + chassis.getFrontRight().getOutputCurrent();
+    }
+
+    @Override
+    public double debug() {
+        return chassis.getBackLeft().getEncoder().getPosition();
     }
 }

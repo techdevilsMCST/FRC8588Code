@@ -24,4 +24,6 @@ public interface DriveSubsystem extends Subsystem {
 
     double returnCurrentDraw();
 
+    double debug();
+
 }

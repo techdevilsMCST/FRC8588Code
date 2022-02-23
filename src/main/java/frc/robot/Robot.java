@@ -39,6 +39,7 @@ public class Robot extends TimedRobot
     private Timer timer;
     private AHRS ahrs;
     private PIDController turnPID;
+    private PIDController drivePID;
 
     private int currentStep; //what step the auton is currently on
 
@@ -57,6 +58,7 @@ public class Robot extends TimedRobot
 
         timer = new Timer();
         turnPID = new PIDController(0.015, 0.001, 0.001);
+        drivePID = new PIDController(0.01, 0, 0);
 
         try {
             ahrs = new AHRS(SPI.Port.kMXP); //the kMXP port is the expansion port for the roborio
@@ -177,7 +179,8 @@ public class Robot extends TimedRobot
         /* Connectivity Debugging Support                                           */
         SmartDashboard.putNumber(   "IMU_Byte_Count",       ahrs.getByteCount());
         SmartDashboard.putNumber(   "IMU_Update_Count",     ahrs.getUpdateCount());
-
+        SmartDashboard.putNumber("Encoder value: ", subsystem.debug());
+        SmartDashboard.putNumber("Current auton step: ", currentStep);
     }
 
     /** This method is called once each time the robot enters Disabled mode. */
@@ -202,7 +205,7 @@ public class Robot extends TimedRobot
         timer.reset();
         timer.start();
 
-        currentStep = 0;
+        currentStep = -1;
     }
 
     /** This method is called periodically during autonomous. */
@@ -216,18 +219,23 @@ public class Robot extends TimedRobot
 
         switch (currentStep)
         {
+            case -1:
+                subsystem.resetEncoders();
+                currentStep++;
+                break;
+
             case 0:
-                if(subsystem.moveToPosition(1000, 0.1))   {currentStep++; subsystem.resetEncoders();}
+                if(subsystem.moveToPosition(drivePID, 130, 0.5))   {currentStep++; subsystem.resetEncoders();}
                 break;
 
             case 1:
-                if(subsystem.moveToPosition(-1000, 0.1))  {currentStep++; subsystem.resetEncoders(); ahrs.reset();}
+                if(subsystem.moveToPosition(-20, 0.1))  {currentStep++; subsystem.resetEncoders(); ahrs.reset();}
                 break;
 
             case 2:
                 //turn 90 degrees
-                turnAmount = turnPID.calculate(currentAHRSRotation, 90);
-                subsystem.drive(turnAmount, DriveDirection.LEFT);
+                turnAmount = -turnPID.calculate(currentAHRSRotation, 90);
+                subsystem.drive(turnAmount, DriveDirection.TURN_RIGHT);
 
                 if(turnPID.getPositionError() < 5) {currentStep++; ahrs.reset();}
                 break;

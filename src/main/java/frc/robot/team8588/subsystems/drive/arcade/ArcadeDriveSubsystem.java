@@ -171,5 +171,10 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
     public double returnCurrentDraw() {
         return chassis.getBackLeft().getOutputCurrent() + chassis.getBackRight().getOutputCurrent() + chassis.getFrontLeft().getOutputCurrent() + chassis.getFrontRight().getOutputCurrent();
     }
+
+    @Override
+    public double debug() {
+        return 0;
+    }
 }
 

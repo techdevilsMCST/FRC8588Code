@@ -16,6 +16,9 @@ public class MecanumDriveChassis {
         this.frontLeft = frontLeft;
         this.backRight = backRight;
         this.backLeft = backLeft;
+
+        frontRight.setInverted(true);
+        backRight.setInverted(true);
     }
 
     public CANSparkMax getFrontRight() {

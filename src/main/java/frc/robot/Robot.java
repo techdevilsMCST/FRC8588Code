@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.team8588.subsystems.drive.DriveDirection;
 import frc.robot.team8588.subsystems.drive.DriveSubsystem;
 import frc.robot.team8588.subsystems.drive.arcade.ArcadeDriveSubsystem;
+import frc.robot.team8588.subsystems.intake.IntakeSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -31,6 +32,8 @@ public class Robot extends TimedRobot
     private RobotContainer robotContainer;
 
     private DriveSubsystem subsystem;
+
+    private IntakeSubsystem subsystemIntake;
 
     //Variables for auton:
     private Timer timer;
@@ -50,6 +53,7 @@ public class Robot extends TimedRobot
         // autonomous chooser on the dashboard.
         robotContainer = new RobotContainer();
         subsystem = robotContainer.getDriveSubsystem();
+        subsystemIntake = robotContainer.getIntake();
 
         timer = new Timer();
         turnPID = new PIDController(0.015, 0.001, 0.001);
@@ -249,6 +253,8 @@ public class Robot extends TimedRobot
     public void teleopPeriodic() {
 
         driveCommand.execute();
+
+        subsystemIntake.periodic();
     }
 
     @Override

@@ -8,8 +8,10 @@ public class IntakeSubsystem implements Subsystem {
     private boolean shooter = false;
 
     private IntakeInputs inputs;
+    private IntakeChassis chassis;
 
-    public IntakeSubsystem(IntakeInputs inputs){
+    public IntakeSubsystem(IntakeChassis chassis, IntakeInputs inputs){
+        this.chassis = chassis;
         this.inputs = inputs;
     }
 
@@ -18,6 +20,18 @@ public class IntakeSubsystem implements Subsystem {
         this.in = inputs.leftBumper.get();
         this.out = inputs.rightBumper.get();
         this.shooter = inputs.a.get();
+
+        double intakePower = 0.6;
+        if (this.in) {
+            chassis.getLeft().set(intakePower);
+            chassis.getRight().set(-intakePower);
+        } else if (this.out) {
+            chassis.getLeft().set(-intakePower);
+            chassis.getRight().set(intakePower);
+        } else if (this.shooter) {
+            chassis.getLeft().set(0);
+            chassis.getRight().set(0);
+        }
     }
 
 }

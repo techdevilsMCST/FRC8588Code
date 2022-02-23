@@ -19,6 +19,9 @@ import frc.robot.team8588.subsystems.drive.mecanum.MecanumDriveSubsystem;
 import frc.robot.team8588.subsystems.drive.tank.TankDriveChassis;
 import frc.robot.team8588.subsystems.drive.tank.TankDriveInputs;
 import frc.robot.team8588.subsystems.drive.tank.TankDriveSubsystem;
+import frc.robot.team8588.subsystems.intake.IntakeChassis;
+import frc.robot.team8588.subsystems.intake.IntakeInputs;
+import frc.robot.team8588.subsystems.intake.IntakeSubsystem;
 import frc.robot.team8588.usercontrol.GamepadF310;
 
 
@@ -32,16 +35,24 @@ public class RobotContainer
 {
     // The robot's subsystems and commands are defined here...
     private GamepadF310 gamepad = new GamepadF310(0);
-    private DriveSubsystem driveSubsystem = new ArcadeDriveSubsystem(
-                new ArcadeDriveChassis(
-                        new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushed),
-                        new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushed),
-                        new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushed),
-                        new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushed)
+    private DriveSubsystem driveSubsystem = new MecanumDriveSubsystem(
+                new MecanumDriveChassis(
+                        new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless),
+                        new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless),
+                        new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless),
+                        new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless)
                 ),
-                new ArcadeDriveInputs(gamepad::getRightX, gamepad::getLeftY, gamepad::getLeftTrigger, gamepad::getRightTrigger));
+                new MecanumDriveInputs(gamepad::getLeftY, gamepad::getLeftX, gamepad::getRightX, gamepad::getLeftTrigger, gamepad::getRightTrigger));
 
     private DriveCommand driveCommand = new DriveCommand(driveSubsystem);
+
+    private IntakeSubsystem intakeSubsystem = new IntakeSubsystem(
+            new IntakeChassis(
+                    new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushless),
+                    new CANSparkMax(6, CANSparkMaxLowLevel.MotorType.kBrushless)
+            ),
+            new IntakeInputs(gamepad::getLeftBumper, gamepad::getRightBumper, gamepad::getA)
+    );
 
     /** The container for the robot.  Contains subsystems, OI devices, and commands. */
     public RobotContainer()
@@ -79,5 +90,9 @@ public class RobotContainer
     {
         // An ExampleCommand will run in autonomous
         return driveCommand;
+    }
+
+    public IntakeSubsystem getIntake() {
+        return intakeSubsystem;
     }
 }

@@ -11,10 +11,15 @@ public class MecanumDriveInputs {
     public final Supplier<Double> leftStickY;
     public final Supplier<Double> leftStickX;
     public final Supplier<Double> rightStickX;
+    public final Supplier<Double> leftTrig;
+    public final Supplier<Double> rightTrig;
 
-    public MecanumDriveInputs(Supplier<Double> leftStickY, Supplier<Double> leftStickX, Supplier<Double> rightStickX) {
+
+    public MecanumDriveInputs(Supplier<Double> leftStickY, Supplier<Double> leftStickX, Supplier<Double> rightStickX, Supplier<Double> leftTrig, Supplier<Double> rightTrig) {
         this.leftStickY = leftStickY;
         this.leftStickX = leftStickX;
         this.rightStickX = rightStickX;
+        this.leftTrig = leftTrig;
+        this.rightTrig = rightTrig;
     }
 }

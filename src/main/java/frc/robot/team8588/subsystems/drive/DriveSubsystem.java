@@ -5,6 +5,7 @@
  * Package: frc.team8588.subsystems*/
 package frc.robot.team8588.subsystems.drive;
 
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
@@ -21,6 +22,8 @@ public interface DriveSubsystem extends Subsystem {
     boolean moveToPosition(PIDController pid, double location, double speed); //overloaded version of the above method that implements the use of a pid control loop
 
     void setPowers();
+
+    void setPowersFO(AHRS ahrs);
 
     double returnCurrentDraw();
 

@@ -13,6 +13,7 @@ Date: 3/29/2021
 
 package frc.robot.team8588.subsystems.drive.arcade;
 
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.team8588.subsystems.drive.DriveDirection;
@@ -162,6 +163,10 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
         SmartDashboard.putNumber("Back Left ESC: ", chassis.getBackLeft().getMotorTemperature()); */
 
         SmartDashboard.putNumber("Total Current Draw: ", returnCurrentDraw());
+    }
+
+    public void setPowersFO(AHRS ahrs) {
+        // do nothing
     }
 
     // method needs to take in x and y of one joystick.  Also needs to take in power.

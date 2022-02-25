@@ -13,13 +13,15 @@ public class MecanumDriveInputs {
     public final Supplier<Double> rightStickX;
     public final Supplier<Double> leftTrig;
     public final Supplier<Double> rightTrig;
+    public final Supplier<Boolean> xButton;
 
 
-    public MecanumDriveInputs(Supplier<Double> leftStickY, Supplier<Double> leftStickX, Supplier<Double> rightStickX, Supplier<Double> leftTrig, Supplier<Double> rightTrig) {
+    public MecanumDriveInputs(Supplier<Double> leftStickY, Supplier<Double> leftStickX, Supplier<Double> rightStickX, Supplier<Double> leftTrig, Supplier<Double> rightTrig, Supplier<Boolean> xButton) {
         this.leftStickY = leftStickY;
         this.leftStickX = leftStickX;
         this.rightStickX = rightStickX;
         this.leftTrig = leftTrig;
         this.rightTrig = rightTrig;
+        this.xButton = xButton;
     }
 }

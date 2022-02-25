@@ -42,7 +42,7 @@ public class RobotContainer
                         new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless),
                         new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless)
                 ),
-                new MecanumDriveInputs(gamepad::getLeftY, gamepad::getLeftX, gamepad::getRightX, gamepad::getLeftTrigger, gamepad::getRightTrigger));
+                new MecanumDriveInputs(gamepad::getLeftY, gamepad::getLeftX, gamepad::getRightX, gamepad::getLeftTrigger, gamepad::getRightTrigger, gamepad::getX));
 
     private DriveCommand driveCommand = new DriveCommand(driveSubsystem);
 

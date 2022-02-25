@@ -6,6 +6,7 @@
 package frc.robot.team8588.subsystems.drive.tank;
 
 
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -142,6 +143,10 @@ public class TankDriveSubsystem implements DriveSubsystem {
         chassis.getBackRight().set(-right);
         chassis.getFrontRight().set(-right);
         //drive.tankDrive(left, right);
+    }
+
+    public void setPowersFO(AHRS ahrs) {
+        // do nothing
     }
 
     @Override

@@ -5,6 +5,7 @@
  * Package: frc.team8588.commands*/
 package frc.robot.team8588.commands;
 
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.team8588.subsystems.drive.DriveDirection;
 import frc.robot.team8588.subsystems.drive.DriveSubsystem;
@@ -25,6 +26,8 @@ public class DriveCommand extends CommandBase {
     public void execute() {
         subsystem.setPowers();
     }
+
+    public void execute(AHRS ahrs) {subsystem.setPowersFO(ahrs);}
 
     public void setPower(double power) {
         this.power = power;

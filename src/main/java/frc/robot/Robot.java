@@ -260,7 +260,7 @@ public class Robot extends TimedRobot
     @Override
     public void teleopPeriodic() {
 
-        driveCommand.execute();
+        driveCommand.execute(ahrs);
 
         subsystemIntake.periodic();
     }

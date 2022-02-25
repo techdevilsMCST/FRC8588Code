@@ -5,6 +5,7 @@
  * Package: frc.team8588.subsystems.drive.mecanum*/
 package frc.robot.team8588.subsystems.drive.mecanum;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -128,7 +129,36 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
        drive.driveCartesian(inputs.leftStickY.get() * - power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power);
 
        SmartDashboard.putNumber("Total Current Draw: ", returnCurrentDraw());
-       // TODO Field-centric w/ gyro
+    }
+
+    public void setPowersFO(AHRS ahrs) {
+        double lTrig = inputs.leftTrig.get();
+        double rTrig = inputs.rightTrig.get();
+
+        double triggerThreshold = 0.3; // Trigger threshold (0-1)
+
+        double power = 0.45; // Default power (45%)
+
+        // Vary power limits based on state of a trigger
+        if (lTrig > triggerThreshold) { // 25% power
+            power = 0.25;
+            SmartDashboard.putNumber("Power", 25);
+        } else if (rTrig > triggerThreshold) { // 100% power
+            power = 1;
+            SmartDashboard.putNumber("Power", 100);
+        } else { // default
+            power = 0.5;
+            SmartDashboard.putNumber("Power", 50);
+        }
+
+        // Be able to reset field-oriented control heading by pressing X button
+        if (inputs.xButton.get()) {
+            ahrs.reset();
+        }
+
+        drive.driveCartesian(inputs.leftStickY.get() * - power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power, ahrs.getFusedHeading());
+
+        SmartDashboard.putNumber("Total Current Draw: ", returnCurrentDraw());
     }
 
     public double returnCurrentDraw() {

@@ -104,6 +104,32 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
 
         return moveToPosition(location, finalSpeed);
     }
+    @Override
+    public boolean strafeToPosition(double location, double speed) {
+        if (location > 0) {
+            drive(speed, DriveDirection.RIGHT);
+            // strafe right
+        }
+        else {
+            drive(speed, DriveDirection.LEFT);
+            // strafe left
+        }
+
+        double position = Math.abs(chassis.getBackLeft().getEncoder().getPosition());
+        // get current position based off the back left motor encoder.
+
+        return (position >= Math.abs((int)location));
+    }
+
+    // overload with a PID
+    @Override
+    public boolean strafeToPosition(PIDController pid, double location, double speed) {
+        double currentLocation = chassis.getBackLeft().getEncoder().getPosition();
+        // get the position according to back left wheel.
+        double finalSpeed = Math.min(1, Math.max(0.10, pid.calculate(currentLocation, location))) * speed;
+
+        return strafeToPosition(location, finalSpeed);
+    }
 
     @Override
     public void setPowers() {

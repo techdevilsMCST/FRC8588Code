@@ -216,7 +216,7 @@ public class Robot extends TimedRobot
         //subsystem.drive(turnAmount, DriveDirection.LEFT);
         double turnAmount = 0;
         double currentAHRSRotation =ahrs.getRotation2d().getDegrees();
-
+        /*
         switch (currentStep)
         {
             case -1:
@@ -238,6 +238,64 @@ public class Robot extends TimedRobot
                 subsystem.drive(turnAmount, DriveDirection.TURN_RIGHT);
 
                 if(turnPID.getPositionError() < 5) {currentStep++; ahrs.reset();}
+                break;
+        }
+        */
+
+        // 20 units forward
+        // turn 180 degrees
+        // 20 units back
+
+        switch(currentStep){
+            // what step are we on???
+
+            case -1:
+                subsystem.resetEncoders();
+                currentStep++;
+                // move to next step / case
+                break;
+            case 0:
+                // 20 units forward
+                if (subsystem.moveToPosition(drivePID, 20, 0.5)) {
+                    // does the movement and returns whether or not the movement was done.
+                    currentStep++;
+                    // make sure to go to the next step
+                    subsystem.resetEncoders();
+                    // reset the encoders for the next move.
+                }
+                break;
+            case 1:
+                // turn 180 degrees
+                turnAmount = turnPID.calculate(currentAHRSRotation, 180);
+                // determine the amount needed to turn by throwing it through the PID.
+
+                subsystem.drive(turnAmount, DriveDirection.TURN_RIGHT);
+                // actually does the driving.  this repeats until we get to . . .
+
+                if (turnPID.getPositionError() < 5) {
+                    // we have reached basically where we need to be.
+                    currentStep++;
+                    // go to the next step / case
+                    ahrs.reset();
+                }
+                break;
+            case 2:
+                // 20 units back
+                if (subsystem.moveToPosition(drivePID, -20, 0.5)) {
+                    currentStep++;
+                    // goes to next step once done (if there was one)
+                    subsystem.resetEncoders();
+                    // reset the encoders.
+                }
+                break;
+            case 3:
+                // strafe left
+                if (subsystem.strafeToPosition(drivePID, -20, 0.5)) {
+
+                }
+                break;
+            case 4:
+                // strafe right
                 break;
         }
     }

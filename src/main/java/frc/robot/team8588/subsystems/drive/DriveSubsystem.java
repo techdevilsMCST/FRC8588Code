@@ -21,6 +21,10 @@ public interface DriveSubsystem extends Subsystem {
 
     boolean moveToPosition(PIDController pid, double location, double speed); //overloaded version of the above method that implements the use of a pid control loop
 
+    boolean strafeToPosition(double location, double speed);
+
+    boolean strafeToPosition(PIDController pid, double location, double speed);
+
     void setPowers();
 
     void setPowersFO(AHRS ahrs);

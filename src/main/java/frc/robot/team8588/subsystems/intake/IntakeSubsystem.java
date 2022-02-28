@@ -21,7 +21,7 @@ public class IntakeSubsystem implements Subsystem {
         this.out = inputs.rightBumper.get();
         this.shooter = inputs.a.get();
 
-        double intakePower = 0.6;
+        double intakePower = 1;
         if (this.in) {
             chassis.getLeft().set(intakePower);
             chassis.getRight().set(-intakePower);

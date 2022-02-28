@@ -156,7 +156,7 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
             ahrs.reset();
         }
 
-        drive.driveCartesian(inputs.leftStickY.get() * - power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power, ahrs.getFusedHeading());
+        drive.driveCartesian(inputs.leftStickY.get() * - power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power, ahrs.getAngle());
 
         SmartDashboard.putNumber("Total Current Draw: ", returnCurrentDraw());
     }

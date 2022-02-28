@@ -291,11 +291,16 @@ public class Robot extends TimedRobot
             case 3:
                 // strafe left
                 if (subsystem.strafeToPosition(drivePID, -20, 0.5)) {
-
+                    currentStep++;
+                    subsystem.resetEncoders();
                 }
                 break;
             case 4:
                 // strafe right
+                if (subsystem.strafeToPosition(drivePID, 20, 0.5)) {
+                    currentStep++;
+                    subsystem.resetEncoders();
+                }
                 break;
         }
     }

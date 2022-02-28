@@ -225,16 +225,24 @@ public class Robot extends TimedRobot
                 break;
 
             case 0:
-                if(subsystem.moveToPosition(drivePID, 130, 0.5))   {currentStep++; subsystem.resetEncoders();}
+                if(subsystem.moveToPosition(20, 0.5))   {currentStep++; subsystem.resetEncoders();}
                 break;
 
             case 1:
-                if(subsystem.moveToPosition(-20, 0.1))  {currentStep++; subsystem.resetEncoders(); ahrs.reset();}
+                //turn 180 degrees
+                turnAmount = -turnPID.calculate(currentAHRSRotation, 180);
+                subsystem.drive(turnAmount, DriveDirection.TURN_RIGHT);
+
+                if(turnPID.getPositionError() < 5) {currentStep++; ahrs.reset();}
                 break;
 
             case 2:
+                if(subsystem.moveToPosition(20, 0.5))  {currentStep++; subsystem.resetEncoders(); ahrs.reset();}
+                break;
+
+            case 3:
                 //turn 90 degrees
-                turnAmount = -turnPID.calculate(currentAHRSRotation, 90);
+                turnAmount = -turnPID.calculate(currentAHRSRotation, 180);
                 subsystem.drive(turnAmount, DriveDirection.TURN_RIGHT);
 
                 if(turnPID.getPositionError() < 5) {currentStep++; ahrs.reset();}

@@ -19,6 +19,8 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
     private MecanumDrive drive;
     private MecanumDriveChassis chassis;
 
+    private double deadZone = 0.10; //controller stick deadzone for braking
+
     public MecanumDriveSubsystem(MecanumDriveChassis chassis, MecanumDriveInputs inputs) {
         this.inputs = inputs;
 
@@ -157,6 +159,16 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
        SmartDashboard.putNumber("Total Current Draw: ", returnCurrentDraw());
     }
 
+    private double averageVelocity()
+    {
+        double one = chassis.getBackLeft().getEncoder().getVelocity();
+        double two = chassis.getBackRight().getEncoder().getVelocity();
+        double three = chassis.getFrontLeft().getEncoder().getVelocity();
+        double four = chassis.getFrontRight().getEncoder().getVelocity();
+
+        return (one + two + three + four) / 4;
+    }
+
     public void setPowersFO(AHRS ahrs) {
         double lTrig = inputs.leftTrig.get();
         double rTrig = inputs.rightTrig.get();
@@ -182,7 +194,15 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
             ahrs.reset();
         }
 
-        drive.driveCartesian(inputs.leftStickY.get() * - power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power, ahrs.getAngle());
+        if(Math.abs(inputs.leftStickY.get()) < deadZone && Math.abs(inputs.leftStickX.get()) < deadZone && Math.abs(inputs.rightStickX.get()) < deadZone) {
+            if(averageVelocity() > 1) {
+                drive.driveCartesian(0.01, 0.01,0);
+                chassis.getBackLeft().getEncoder().getVelocity();
+            }
+        }
+        else {
+            drive.driveCartesian(inputs.leftStickY.get() * -power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power, ahrs.getAngle());
+        }
 
         SmartDashboard.putNumber("Total Current Draw: ", returnCurrentDraw());
     }

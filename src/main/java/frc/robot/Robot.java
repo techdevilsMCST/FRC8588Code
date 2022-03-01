@@ -259,9 +259,7 @@ public class Robot extends TimedRobot
     /** This method is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
-
         driveCommand.execute(ahrs);
-
         subsystemIntake.periodic();
     }
 

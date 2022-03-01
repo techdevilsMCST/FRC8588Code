@@ -8,6 +8,7 @@ package frc.robot.team8588.subsystems.drive.mecanum;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.team8588.subsystems.drive.DriveDirection;
@@ -115,31 +116,15 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
         double power = 0.45;
 
         // Vary power limits based on state of a trigger
-        if (lTrig > triggerThreshold) { // 25% power
-            power = 0.25;
-            SmartDashboard.putNumber("Power", 25);
-        } else if (rTrig > triggerThreshold) { // 100% power
-            power = 1;
-            SmartDashboard.putNumber("Power", 100);
-        } else { // default
-            power = 0.5;
-            SmartDashboard.putNumber("Power", 50);
-        }
+        power = checkTriggers(lTrig, rTrig, triggerThreshold);
 
-       drive.driveCartesian(inputs.leftStickY.get() * - power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power);
+        drive.driveCartesian(inputs.leftStickY.get() * - power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power);
 
        SmartDashboard.putNumber("Total Current Draw: ", returnCurrentDraw());
     }
 
-    public void setPowersFO(AHRS ahrs) {
-        double lTrig = inputs.leftTrig.get();
-        double rTrig = inputs.rightTrig.get();
-
-        double triggerThreshold = 0.3; // Trigger threshold (0-1)
-
-        double power = 0.45; // Default power (45%)
-
-        // Vary power limits based on state of a trigger
+    private double checkTriggers(double lTrig, double rTrig, double triggerThreshold) {
+        double power;
         if (lTrig > triggerThreshold) { // 25% power
             power = 0.25;
             SmartDashboard.putNumber("Power", 25);
@@ -150,15 +135,32 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
             power = 0.5;
             SmartDashboard.putNumber("Power", 50);
         }
+        return power;
+    }
+
+    @Override
+    public void setPowersFO(AHRS ahrs) {
+        double lTrig = inputs.leftTrig.get();
+        double rTrig = inputs.rightTrig.get();
+        boolean xButton = inputs.xButton.get();
+        double triggerThreshold = 0.3; // Trigger threshold (0-1)
+        double power = 0.45; // Default power (45%)
 
         // Be able to reset field-oriented control heading by pressing X button
-        if (inputs.xButton.get()) {
+        if (xButton) {
             ahrs.reset();
         }
 
-        drive.driveCartesian(inputs.leftStickY.get() * - power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power, ahrs.getAngle());
+        // Vary power limits based on state of a trigger
+        power = checkTriggers(lTrig, rTrig, triggerThreshold);
 
-        SmartDashboard.putNumber("Total Current Draw: ", returnCurrentDraw());
+        try {
+            drive.driveCartesian(inputs.leftStickY.get() * -power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power, ahrs.getAngle());
+            SmartDashboard.putNumber("Current Angle: ", ahrs.getAngle());
+            //SmartDashboard.putNumber("Total Current Draw: ", returnCurrentDraw());
+        } catch (Exception ex) {
+            DriverStation.reportError("Error communicating with drive system: " + ex.getMessage(), true);
+        }
     }
 
     public double returnCurrentDraw() {

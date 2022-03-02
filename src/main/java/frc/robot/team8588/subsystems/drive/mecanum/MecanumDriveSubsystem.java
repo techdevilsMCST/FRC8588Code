@@ -195,7 +195,7 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
         }
 
         if(Math.abs(inputs.leftStickY.get()) < deadZone && Math.abs(inputs.leftStickX.get()) < deadZone && Math.abs(inputs.rightStickX.get()) < deadZone) {
-            if(averageVelocity() > 1) {
+            if(averageVelocity() > 0) {
                 drive.driveCartesian(0.01, 0.01,0);
                 chassis.getBackLeft().getEncoder().getVelocity();
             }

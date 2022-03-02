@@ -254,6 +254,28 @@ public class Robot extends TimedRobot
         // turn 180 degrees
         // 20 units back
 
+        switch (currentStep){
+            case -1:
+                subsystem.resetEncoders();
+                currentStep++; //moves to next case
+                break;
+
+            case 0:
+                if (subsystem.moveToPosition(20,0.5)) {
+                    //move 20 units forward
+
+                    currentStep++;
+                    subsystem.resetEncoders();
+                }
+                break;
+
+            case 1:
+                subsystem.moveToPosition(0,0);
+                break;
+        }
+
+
+        /*
         switch(currentStep){
             // what step are we on???
 
@@ -311,6 +333,7 @@ public class Robot extends TimedRobot
                 }
                 break;
         }
+        */
     }
 
     @Override

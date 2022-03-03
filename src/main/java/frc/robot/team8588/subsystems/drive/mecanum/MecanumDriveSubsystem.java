@@ -143,8 +143,9 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
         double lTrig = inputs.leftTrig.get();
         double rTrig = inputs.rightTrig.get();
         boolean xButton = inputs.xButton.get();
+        boolean yButton = inputs.yButton.get();
         double triggerThreshold = 0.3; // Trigger threshold (0-1)
-        double power = 0.45; // Default power (45%)
+        double power = 0.45; // Default power
 
         // Be able to reset field-oriented control heading by pressing X button
         if (xButton) {
@@ -155,9 +156,26 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
         power = checkTriggers(lTrig, rTrig, triggerThreshold);
 
         try {
-            drive.driveCartesian(inputs.leftStickY.get() * -power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power, ahrs.getAngle());
+            drive.driveCartesian(inputs.leftStickY.get() * -power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power, ahrs.getAngle() % 360);
             SmartDashboard.putNumber("Current Angle: ", ahrs.getAngle());
-            //SmartDashboard.putNumber("Total Current Draw: ", returnCurrentDraw());
+
+            double temperature = (chassis.getBackLeft().getMotorTemperature() + chassis.getBackRight().getMotorTemperature() +chassis.getFrontLeft().getMotorTemperature() +chassis.getFrontRight().getMotorTemperature()) / 4;
+            SmartDashboard.putNumber("Average motor temperature: ", temperature);
+
+            SmartDashboard.putNumber("Total Current Draw: ", returnCurrentDraw());
+
+            if (yButton) {
+                chassis.getBackLeft().setIdleMode(CANSparkMax.IdleMode.kBrake);
+                chassis.getBackRight().setIdleMode(CANSparkMax.IdleMode.kBrake);
+                chassis.getFrontLeft().setIdleMode(CANSparkMax.IdleMode.kBrake);
+                chassis.getFrontRight().setIdleMode(CANSparkMax.IdleMode.kBrake);
+            } else {
+                chassis.getBackLeft().setIdleMode(CANSparkMax.IdleMode.kCoast);
+                chassis.getBackRight().setIdleMode(CANSparkMax.IdleMode.kCoast);
+                chassis.getFrontLeft().setIdleMode(CANSparkMax.IdleMode.kCoast);
+                chassis.getFrontRight().setIdleMode(CANSparkMax.IdleMode.kCoast);
+            }
+
         } catch (Exception ex) {
             DriverStation.reportError("Error communicating with drive system: " + ex.getMessage(), true);
         }

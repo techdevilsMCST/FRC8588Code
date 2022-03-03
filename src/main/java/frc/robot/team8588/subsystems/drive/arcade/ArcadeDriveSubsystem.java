@@ -124,6 +124,16 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
     }
 
     @Override
+    public boolean strafeToPosition(double location, double speed) {
+        return false;
+    }
+
+    @Override
+    public boolean strafeToPosition(PIDController pid, double location, double speed) {
+        return false;
+    }
+
+    @Override
     public void setPowers() {
         double forward = inputs.yStick.get();
         double turn = inputs.xStick.get();

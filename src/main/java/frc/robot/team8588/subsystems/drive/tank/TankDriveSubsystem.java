@@ -170,6 +170,16 @@ public class TankDriveSubsystem implements DriveSubsystem {
         return false;
     }
 
+    @Override
+    public boolean strafeToPosition(double location, double speed) {
+        return false;
+    }
+
+    @Override
+    public boolean strafeToPosition(PIDController pid, double location, double speed) {
+        return false;
+    }
+
     public double returnCurrentDraw() {
         return chassis.getBackLeft().getOutputCurrent() + chassis.getBackRight().getOutputCurrent() + chassis.getFrontLeft().getOutputCurrent() + chassis.getFrontRight().getOutputCurrent();
     }

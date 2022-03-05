@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public class IntakeSubsystem implements Subsystem {
     private boolean in = false;
     private boolean out = false;
+    private boolean stop = false;
     private boolean shooter = false;
 
     private IntakeInputs inputs;
@@ -19,7 +20,7 @@ public class IntakeSubsystem implements Subsystem {
     public void periodic(){
         this.in = inputs.leftBumper.get();
         this.out = inputs.rightBumper.get();
-        this.shooter = inputs.a.get();
+        this.stop = inputs.a.get();
 
         double intakePower = 0.65;
         if (this.in) {
@@ -28,9 +29,14 @@ public class IntakeSubsystem implements Subsystem {
         } else if (this.out) {
             chassis.getLeft().set(-intakePower);
             chassis.getRight().set(intakePower);
-        } else if (this.shooter) {
+        } else if (this.stop) {
             chassis.getLeft().set(0);
             chassis.getRight().set(0);
+        }
+
+        if (this.shooter) {
+            chassis.getIndexer().set(1);
+            chassis.getShooter().set(0.8);
         }
     }
 

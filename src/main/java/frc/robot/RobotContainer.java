@@ -42,16 +42,18 @@ public class RobotContainer
                         new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless),
                         new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless)
                 ),
-                new MecanumDriveInputs(gamepad::getLeftY, gamepad::getLeftX, gamepad::getRightX, gamepad::getLeftTrigger, gamepad::getRightTrigger, gamepad::getX));
+                new MecanumDriveInputs(gamepad::getLeftY, gamepad::getLeftX, gamepad::getRightX, gamepad::getLeftTrigger, gamepad::getRightTrigger, gamepad::getX, gamepad::getY));
 
     private DriveCommand driveCommand = new DriveCommand(driveSubsystem);
 
     private IntakeSubsystem intakeSubsystem = new IntakeSubsystem(
             new IntakeChassis(
                     new CANSparkMax(5, CANSparkMaxLowLevel.MotorType.kBrushless),
-                    new CANSparkMax(6, CANSparkMaxLowLevel.MotorType.kBrushless)
+                    new CANSparkMax(6, CANSparkMaxLowLevel.MotorType.kBrushless),
+                    new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushless),
+                    new CANSparkMax(8, CANSparkMaxLowLevel.MotorType.kBrushless)
             ),
-            new IntakeInputs(gamepad::getLeftBumper, gamepad::getRightBumper, gamepad::getA)
+            new IntakeInputs(gamepad::getLeftBumper, gamepad::getRightBumper, gamepad::getA, gamepad::getB)
     );
 
     /** The container for the robot.  Contains subsystems, OI devices, and commands. */

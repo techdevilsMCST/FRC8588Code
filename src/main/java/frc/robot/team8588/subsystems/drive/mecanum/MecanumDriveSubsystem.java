@@ -42,6 +42,17 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
     }
 
     @Override
+    public boolean strafeToPosition(double a, double b) {
+        // do nothing
+        return false;
+    }
+
+    public boolean strafeToPosition(PIDController p, double b, double c) {
+        // do nothing
+        return false;
+    }
+
+    @Override
     public void drive(double power, DriveDirection direction) {
         // TODO
         switch (direction)

@@ -6,6 +6,8 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
@@ -261,7 +263,7 @@ public class Robot extends TimedRobot
                 break;
 
             case 0:
-                if (subsystem.moveToPosition(20,0.5)) {
+                if (subsystem.moveToPosition(-60,0.5)) {
                     //move 20 units forward
 
                     currentStep++;

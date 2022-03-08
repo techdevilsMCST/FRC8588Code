@@ -158,11 +158,12 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
     }
 
     public void halfPower() {
-        power = 0.5;
+        power = 0.35;
     }
 
+    // TODO CHANGE THIS TO "1" DURING COMP
     public void fullPower() {
-        power = 1;
+        power = 0.5;
     }
 
     public double returnCurrentDraw() {

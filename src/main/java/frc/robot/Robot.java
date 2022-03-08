@@ -12,6 +12,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.team8588.commands.AutonCommand;
@@ -32,6 +33,8 @@ import frc.robot.team8588.subsystems.intake.IntakeSubsystem;
 public class Robot extends TimedRobot
 {
     private DriveCommand driveCommand;
+    private AutonCommand autonCommand;
+
     private RobotContainer robotContainer;
 
     private DriveSubsystem subsystem;
@@ -202,14 +205,21 @@ public class Robot extends TimedRobot
     @Override
     public void autonomousInit()
     {
+        // This makes sure that the teleop stops running when
+        // autonomous starts running. If you want the teleop to
+        // continue until interrupted by another command, remove
+        // this line or comment it out.
+        if (driveCommand != null) {
+            driveCommand.cancel();
+        }
 
-        driveCommand = robotContainer.getDriveCommand();
+        autonCommand = robotContainer.getAutonCommand();
 
         // schedule the autonomous command (example)
-        if (driveCommand != null)
+        if (autonCommand != null)
         {
             // run auton??
-            new AutonCommand(subsystem, subsystemIntake).schedule();
+            autonCommand.schedule();
         }
 
         /*
@@ -383,6 +393,10 @@ public class Robot extends TimedRobot
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
+        if (autonCommand != null) {
+            autonCommand.cancel();
+        }
+
         driveCommand = robotContainer.getDriveCommand();
         if (driveCommand != null)
         {
@@ -393,7 +407,11 @@ public class Robot extends TimedRobot
     /** This method is called periodically during operator control. */
     @Override
     public void teleopPeriodic() {
+
+        // bot goes nyoom
         driveCommand.execute(ahrs);
+
+        // send intake telemetry
         subsystemIntake.periodic();
     }
 

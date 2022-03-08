@@ -29,14 +29,6 @@ public class IntakeSubsystem implements Subsystem {
         }
     }
 
-    public void runFlywheelHIGH() {
-        chassis.getShooter().set(-1);
-    }
-
-    public void runFlywheelLOW() {
-        chassis.getShooter().set(-0.5);
-    }
-
     public void runIndexer(boolean on) {
         if(on) {
             chassis.getIndexer().set(-1);
@@ -45,7 +37,15 @@ public class IntakeSubsystem implements Subsystem {
             chassis.getIndexer().set(0);
     }
 
-    public void runIndexerI() {
+    public void runFlywheelHIGH() {
+        chassis.getShooter().set(-1);
+    }
+
+    public void runFlywheelLOW() {
+        chassis.getShooter().set(-0.5);
+    }
+
+    public void runIndexer() {
         chassis.getIndexer().set(-1);
     }
 

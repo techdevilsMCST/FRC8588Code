@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.team8588.commands.AutonCommand;
 import frc.robot.team8588.commands.DriveCommand;
 import frc.robot.team8588.subsystems.drive.DriveSubsystem;
 import frc.robot.team8588.subsystems.drive.mecanum.MecanumDriveChassis;
@@ -38,9 +39,9 @@ public class RobotContainer
                         new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless),
                         new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless)
                 ),
-                new MecanumDriveInputs(gamepad::getLeftY, gamepad::getLeftX, gamepad::getRightX));
+                new MecanumDriveInputs(gamepad::getLeftY, gamepad::getLeftX, gamepad::getRightX)
+    );
 
-    private DriveCommand driveCommand = new DriveCommand(driveSubsystem);
 
     private IntakeSubsystem intakeSubsystem = new IntakeSubsystem(
             new IntakeChassis(
@@ -50,6 +51,9 @@ public class RobotContainer
                     new CANSparkMax(8, CANSparkMaxLowLevel.MotorType.kBrushless)
             )
     );
+
+    private DriveCommand driveCommand = new DriveCommand(driveSubsystem);
+    private AutonCommand autonCommand = new AutonCommand(driveSubsystem, intakeSubsystem);
 
     /** The container for the robot.  Contains subsystems, OI devices, and commands. */
     public RobotContainer(AHRS ahrs)
@@ -68,6 +72,7 @@ public class RobotContainer
     private void configureButtonBindings(AHRS ahrs)
     {
         // Brought to you by Val's lack of mental stability, his TIDAL playlist, and the WPILibJ2 command library.
+        // Thank God for inline definitions.
 
         // ABXY SECTION //
 
@@ -75,10 +80,10 @@ public class RobotContainer
         new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_A)
                 .whenPressed(new InstantCommand(intakeSubsystem::stopAll));
 
-        // While B is held, 50% power
+        // While B is held, 35% power
         new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_B)
-                .whenHeld(new InstantCommand(driveSubsystem::halfPower))
-                .whenReleased(new InstantCommand(driveSubsystem::fullPower));
+                .whenHeld(new RunCommand(driveSubsystem::halfPower))
+                .whenReleased(new RunCommand(driveSubsystem::fullPower));
 
         // When X is pressed, toggle between braking and coasting
         new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_X)
@@ -98,14 +103,16 @@ public class RobotContainer
         new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_RIGHT_BUMPER)
                 .whenPressed(new InstantCommand(intakeSubsystem::intakeOut));
 
+        double triggerThreshold = 0.3;
+
         // When LT is held, spin up the flywheel to half speed, wait two seconds, then run indexer ( LOW SHOT )
-        new Trigger(gamepad::rightTriggerPressed)
-                .whileActiveOnce(new SequentialCommandGroup(new InstantCommand(intakeSubsystem::runFlywheelLOW), new WaitCommand(2), new InstantCommand(intakeSubsystem::runIndexerI)))
+        new Trigger(() -> { return gamepad.getLeftTrigger() > triggerThreshold; })
+                .whileActiveOnce(new SequentialCommandGroup(new InstantCommand(intakeSubsystem::runFlywheelLOW), new WaitCommand(2.5), new InstantCommand(intakeSubsystem::runIndexer)))
                 .whenInactive(new InstantCommand(intakeSubsystem::stopAll));
 
         // When RT is held, spin up the flywheel to full speed, wait two seconds, then run indexer ( HIGH SHOT )
-        new Trigger(gamepad::leftTriggerPressed)
-                .whileActiveOnce(new SequentialCommandGroup(new InstantCommand(intakeSubsystem::runFlywheelHIGH), new WaitCommand(2), new InstantCommand(intakeSubsystem::runIndexerI)))
+        new Trigger(() -> { return gamepad.getRightTrigger() > triggerThreshold; })
+                .whileActiveOnce(new SequentialCommandGroup(new InstantCommand(intakeSubsystem::runFlywheelHIGH), new WaitCommand(3), new InstantCommand(intakeSubsystem::runIndexer)))
                 .whenInactive(new InstantCommand(intakeSubsystem::stopAll));
     }
 
@@ -126,6 +133,11 @@ public class RobotContainer
     {
         // driveCommand will run in teleop
         return driveCommand;
+    }
+
+    public AutonCommand getAutonCommand() {
+        // autonCommand will run in autonomous
+        return autonCommand;
     }
 
     public IntakeSubsystem getIntake() {

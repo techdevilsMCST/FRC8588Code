@@ -1,3 +1,7 @@
+/*
+* THIS CLASS IS NOT BEING USED
+*/
+
 package frc.robot.team8588.subsystems.intake;
 
 import java.util.function.Supplier;

@@ -5,25 +5,19 @@
  * Package: frc.team8588.subsystems.drive.mecanum*/
 package frc.robot.team8588.subsystems.drive.mecanum;
 
+// I didn't finish this - Val
+
 import java.util.function.Supplier;
 
 public class MecanumDriveInputs {
     public final Supplier<Double> leftStickY;
     public final Supplier<Double> leftStickX;
     public final Supplier<Double> rightStickX;
-    public final Supplier<Double> leftTrig;
-    public final Supplier<Double> rightTrig;
-    public final Supplier<Boolean> xButton;
-    public final Supplier<Boolean> yButton;
 
 
-    public MecanumDriveInputs(Supplier<Double> leftStickY, Supplier<Double> leftStickX, Supplier<Double> rightStickX, Supplier<Double> leftTrig, Supplier<Double> rightTrig, Supplier<Boolean> xButton, Supplier<Boolean> yButton) {
+    public MecanumDriveInputs(Supplier<Double> leftStickY, Supplier<Double> leftStickX, Supplier<Double> rightStickX) {
         this.leftStickY = leftStickY;
         this.leftStickX = leftStickX;
         this.rightStickX = rightStickX;
-        this.leftTrig = leftTrig;
-        this.rightTrig = rightTrig;
-        this.xButton = xButton;
-        this.yButton = yButton;
     }
 }

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.team8588.commands.AutonCommand;
 import frc.robot.team8588.commands.DriveCommand;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.team8588.subsystems.drive.DriveDirection;
@@ -45,6 +46,10 @@ public class Robot extends TimedRobot
 
     private int currentStep; //what step the auton is currently on
 
+    //for running the intake wheels
+    boolean runTopMotor = false;
+    boolean runIndexer = false;
+
     /**
      * This method is run when the robot is first started up and should be used for any
      * initialization code.
@@ -52,12 +57,6 @@ public class Robot extends TimedRobot
     @Override
     public void robotInit()
     {
-        // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-        // autonomous chooser on the dashboard.
-        robotContainer = new RobotContainer();
-        subsystem = robotContainer.getDriveSubsystem();
-        subsystemIntake = robotContainer.getIntake();
-
         timer = new Timer();
         turnPID = new PIDController(0.015, 0.001, 0.001);
         drivePID = new PIDController(0.01, 0, 0);
@@ -70,6 +69,13 @@ public class Robot extends TimedRobot
         catch (RuntimeException ex) {
             DriverStation.reportError("Error creating navx sensor object! " + ex.getMessage(), true);
         }
+
+        // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
+        // autonomous chooser on the dashboard.
+        robotContainer = new RobotContainer(ahrs);
+        subsystem = robotContainer.getDriveSubsystem();
+        subsystemIntake = robotContainer.getIntake();
+
     }
 
     /**
@@ -91,30 +97,30 @@ public class Robot extends TimedRobot
         /* Display 6-axis Processed Angle Data                                      */
         SmartDashboard.putBoolean(  "IMU_Connected",        ahrs.isConnected());
         SmartDashboard.putBoolean(  "IMU_IsCalibrating",    ahrs.isCalibrating());
-        SmartDashboard.putNumber(   "IMU_Yaw",              ahrs.getYaw());
-        SmartDashboard.putNumber(   "IMU_Pitch",            ahrs.getPitch());
-        SmartDashboard.putNumber(   "IMU_Roll",             ahrs.getRoll());
+        //SmartDashboard.putNumber(   "IMU_Yaw",              ahrs.getYaw());
+        //SmartDashboard.putNumber(   "IMU_Pitch",            ahrs.getPitch());
+        //SmartDashboard.putNumber(   "IMU_Roll",             ahrs.getRoll());
 
         /* Display tilt-corrected, Magnetometer-based heading (requires             */
         /* magnetometer calibration to be useful)                                   */
 
-        SmartDashboard.putNumber(   "IMU_CompassHeading",   ahrs.getCompassHeading());
+        //SmartDashboard.putNumber(   "IMU_CompassHeading",   ahrs.getCompassHeading());
 
         /* Display 9-axis Heading (requires magnetometer calibration to be useful)  */
-        SmartDashboard.putNumber(   "IMU_FusedHeading",     ahrs.getFusedHeading());
+        //SmartDashboard.putNumber(   "IMU_FusedHeading",     ahrs.getFusedHeading());
 
         /* These functions are compatible w/the WPI Gyro Class, providing a simple  */
         /* path for upgrading from the Kit-of-Parts gyro to the navx MXP            */
 
-        SmartDashboard.putNumber(   "IMU_TotalYaw",         ahrs.getAngle());
-        SmartDashboard.putNumber(   "IMU_YawRateDPS",       ahrs.getRate());
+        //SmartDashboard.putNumber(   "IMU_TotalYaw",         ahrs.getAngle());
+        //SmartDashboard.putNumber(   "IMU_YawRateDPS",       ahrs.getRate());
 
         /* Display Processed Acceleration Data (Linear Acceleration, Motion Detect) */
 
         SmartDashboard.putNumber(   "IMU_Accel_X",          ahrs.getWorldLinearAccelX());
         SmartDashboard.putNumber(   "IMU_Accel_Y",          ahrs.getWorldLinearAccelY());
-        SmartDashboard.putBoolean(  "IMU_IsMoving",         ahrs.isMoving());
-        SmartDashboard.putBoolean(  "IMU_IsRotating",       ahrs.isRotating());
+        //SmartDashboard.putBoolean(  "IMU_IsMoving",         ahrs.isMoving());
+        //SmartDashboard.putBoolean(  "IMU_IsRotating",       ahrs.isRotating());
 
         /* Display estimates of velocity/displacement.  Note that these values are  */
         /* not expected to be accurate enough for estimating robot position on a    */
@@ -176,13 +182,13 @@ public class Robot extends TimedRobot
          */
 
         /* Sensor Data Timestamp */
-        SmartDashboard.putNumber(   "SensorTimestamp",		ahrs.getLastSensorTimestamp());
+        //SmartDashboard.putNumber(   "SensorTimestamp",		ahrs.getLastSensorTimestamp());
 
         /* Connectivity Debugging Support                                           */
-        SmartDashboard.putNumber(   "IMU_Byte_Count",       ahrs.getByteCount());
-        SmartDashboard.putNumber(   "IMU_Update_Count",     ahrs.getUpdateCount());
+        //SmartDashboard.putNumber(   "IMU_Byte_Count",       ahrs.getByteCount());
+        //SmartDashboard.putNumber(   "IMU_Update_Count",     ahrs.getUpdateCount());
         SmartDashboard.putNumber("Encoder value: ", subsystem.debug());
-        SmartDashboard.putNumber("Current auton step: ", currentStep);
+        //SmartDashboard.putNumber("Current auton step: ", currentStep);
     }
 
     /** This method is called once each time the robot enters Disabled mode. */
@@ -196,18 +202,25 @@ public class Robot extends TimedRobot
     @Override
     public void autonomousInit()
     {
-//        driveCommand = robotContainer.getDriveCommand();
-//
-//        // schedule the autonomous command (example)
-//        if (driveCommand != null)
-//        {
-//            driveCommand.schedule();
-//        }
 
+        driveCommand = robotContainer.getDriveCommand();
+
+        // schedule the autonomous command (example)
+        if (driveCommand != null)
+        {
+            // run auton??
+            new AutonCommand(subsystem, subsystemIntake).schedule();
+        }
+
+        /*
         timer.reset();
         timer.start();
 
+        runTopMotor = false;
+        runIndexer = false;
         currentStep = -1;
+
+         */
     }
 
     /** This method is called periodically during autonomous. */
@@ -218,6 +231,8 @@ public class Robot extends TimedRobot
         //subsystem.drive(turnAmount, DriveDirection.LEFT);
         double turnAmount = 0;
         double currentAHRSRotation =ahrs.getRotation2d().getDegrees();
+
+
         /*
         switch (currentStep)
         {
@@ -256,25 +271,48 @@ public class Robot extends TimedRobot
         // turn 180 degrees
         // 20 units back
 
+        /*
         switch (currentStep){
             case -1:
                 subsystem.resetEncoders();
+                timer.reset();
                 currentStep++; //moves to next case
+                runTopMotor = true; //start spinning up the top motor
                 break;
 
             case 0:
+                if(timer.get() > 2) {
+                    currentStep++;
+                    timer.reset();
+
+                }
+                break;
+
+            case 1: //shoot the ball
+                runIndexer = true;
+                if(timer.get() > 3) {
+                    currentStep++;
+                }
+                break;
+
+            case 2:
+                //after shooting the ball, run original auton by moving forward and then stopping
                 if (subsystem.moveToPosition(-60,0.5)) {
-                    //move 20 units forward
+                    //move 60 units forward
 
                     currentStep++;
                     subsystem.resetEncoders();
                 }
                 break;
 
-            case 1:
-                subsystem.moveToPosition(0,0);
+            case 3:
+                subsystem.moveToPosition(0, 0);
                 break;
         }
+
+        subsystemIntake.runFlywheel(runTopMotor);
+        subsystemIntake.runIndexer(runIndexer);
+        */
 
 
         /*

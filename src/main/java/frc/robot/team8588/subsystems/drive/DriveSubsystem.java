@@ -29,6 +29,14 @@ public interface DriveSubsystem extends Subsystem {
 
     void setPowersFO(AHRS ahrs);
 
+    void setBrake();
+
+    void setCoast();
+
+    void halfPower();
+
+    void fullPower();
+
     double returnCurrentDraw();
 
     double debug();

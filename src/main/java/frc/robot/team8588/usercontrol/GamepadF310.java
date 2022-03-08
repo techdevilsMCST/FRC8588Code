@@ -15,24 +15,24 @@ public class GamepadF310 {
      * The variable names should be pretty self-explanatory as to what each number
      * represents.
      */
-    private static final int GAMEPAD_LEFT_X = 0;
-    private static final int GAMEPAD_LEFT_Y = 1;
-    private static final int GAMEPAD_RIGHT_X = 4;
-    private static final int GAMEPAD_RIGHT_Y = 5;
+    public static final int GAMEPAD_LEFT_X = 0;
+    public static final int GAMEPAD_LEFT_Y = 1;
+    public static final int GAMEPAD_RIGHT_X = 4;
+    public static final int GAMEPAD_RIGHT_Y = 5;
 
-    private static final int GAMEPAD_LEFT_TRIGGER = 2;
-    private static final int GAMEPAD_RIGHT_TRIGGER = 3;
+    public static final int GAMEPAD_LEFT_TRIGGER = 2;
+    public static final int GAMEPAD_RIGHT_TRIGGER = 3;
 
-    private static final int GAMEPAD_A = 1;
-    private static final int GAMEPAD_B = 2;
-    private static final int GAMEPAD_X = 3;
-    private static final int GAMEPAD_Y = 4;
+    public static final int GAMEPAD_A = 1;
+    public static final int GAMEPAD_B = 2;
+    public static final int GAMEPAD_X = 3;
+    public static final int GAMEPAD_Y = 4;
 
-    private static final int GAMEPAD_LEFT_BUMPER = 5;
-    private static final int GAMEPAD_RIGHT_BUMPER = 6;
+    public static final int GAMEPAD_LEFT_BUMPER = 5;
+    public static final int GAMEPAD_RIGHT_BUMPER = 6;
 
 
-    private Joystick joystick;
+    public Joystick joystick;
     public GamepadF310(int port) {
         joystick = new Joystick(port);
     }
@@ -57,9 +57,13 @@ public class GamepadF310 {
         return joystick.getRawAxis(GAMEPAD_RIGHT_TRIGGER);
     }
 
+    public boolean rightTriggerPressed() { return joystick.getRawAxis(GAMEPAD_RIGHT_TRIGGER) > 0.3; }
+
     public double getLeftTrigger() {
         return joystick.getRawAxis(GAMEPAD_LEFT_TRIGGER);
     }
+
+    public boolean leftTriggerPressed() { return joystick.getRawAxis(GAMEPAD_LEFT_TRIGGER) > 0.3; }
 
     public boolean getA() {
         return joystick.getRawButton(GAMEPAD_A);

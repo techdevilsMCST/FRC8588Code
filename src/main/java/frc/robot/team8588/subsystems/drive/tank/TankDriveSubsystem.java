@@ -7,6 +7,7 @@ package frc.robot.team8588.subsystems.drive.tank;
 
 
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -24,6 +25,7 @@ public class TankDriveSubsystem implements DriveSubsystem {
     private double deccelAmount = 0.05; 
     private double targetAmount = 0;
     private double currentAmount = 0;
+    private double power = 1;
 
     public TankDriveSubsystem(TankDriveChassis chassis, TankDriveInputs inputs) {
         this.chassis = chassis;
@@ -188,6 +190,28 @@ public class TankDriveSubsystem implements DriveSubsystem {
     public double debug() {
 
         return 0;
+    }
+
+    public void setBrake() {
+        chassis.getBackLeft().setIdleMode(CANSparkMax.IdleMode.kBrake);
+        chassis.getBackRight().setIdleMode(CANSparkMax.IdleMode.kBrake);
+        chassis.getFrontLeft().setIdleMode(CANSparkMax.IdleMode.kBrake);
+        chassis.getFrontRight().setIdleMode(CANSparkMax.IdleMode.kBrake);
+    }
+
+    public void setCoast() {
+        chassis.getBackLeft().setIdleMode(CANSparkMax.IdleMode.kCoast);
+        chassis.getBackRight().setIdleMode(CANSparkMax.IdleMode.kCoast);
+        chassis.getFrontLeft().setIdleMode(CANSparkMax.IdleMode.kCoast);
+        chassis.getFrontRight().setIdleMode(CANSparkMax.IdleMode.kCoast);
+    }
+
+    public void halfPower() {
+        power = 0.5;
+    }
+
+    public void fullPower() {
+        power = 1;
     }
 
 }

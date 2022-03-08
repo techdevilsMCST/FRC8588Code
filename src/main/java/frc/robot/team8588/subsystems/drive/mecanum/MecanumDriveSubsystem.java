@@ -20,6 +20,8 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
     private MecanumDrive drive;
     private MecanumDriveChassis chassis;
 
+    private double power = 1;
+
     public MecanumDriveSubsystem(MecanumDriveChassis chassis, MecanumDriveInputs inputs) {
         this.inputs = inputs;
 
@@ -119,53 +121,14 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
 
     @Override
     public void setPowers() {
-        double lTrig = inputs.leftTrig.get();
-        double rTrig = inputs.rightTrig.get();
-
-        double triggerThreshold = 0.3;
-
-        double power = 0.45;
-
-        // Vary power limits based on state of a trigger
-        power = checkTriggers(lTrig, rTrig, triggerThreshold);
 
         drive.driveCartesian(inputs.leftStickY.get() * - power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power);
 
        SmartDashboard.putNumber("Total Current Draw: ", returnCurrentDraw());
     }
 
-    private double checkTriggers(double lTrig, double rTrig, double triggerThreshold) {
-        double power;
-        if (lTrig > triggerThreshold) { // 25% power
-            power = 0.25;
-            SmartDashboard.putNumber("Power", 25);
-        } else if (rTrig > triggerThreshold) { // 100% power
-            power = 1;
-            SmartDashboard.putNumber("Power", 100);
-        } else { // default
-            power = 0.5;
-            SmartDashboard.putNumber("Power", 50);
-        }
-        return power;
-    }
-
     @Override
     public void setPowersFO(AHRS ahrs) {
-        double lTrig = inputs.leftTrig.get();
-        double rTrig = inputs.rightTrig.get();
-        boolean xButton = inputs.xButton.get();
-        boolean yButton = inputs.yButton.get();
-        double triggerThreshold = 0.3; // Trigger threshold (0-1)
-        double power = 0.45; // Default power
-
-        // Be able to reset field-oriented control heading by pressing X button
-        if (xButton) {
-            ahrs.reset();
-        }
-
-        // Vary power limits based on state of a trigger
-        power = checkTriggers(lTrig, rTrig, triggerThreshold);
-
         try {
             drive.driveCartesian(inputs.leftStickY.get() * -power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power, ahrs.getAngle() % 360);
             SmartDashboard.putNumber("Current Angle: ", ahrs.getAngle());
@@ -175,21 +138,31 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
 
             SmartDashboard.putNumber("Total Current Draw: ", returnCurrentDraw());
 
-            if (yButton) {
-                chassis.getBackLeft().setIdleMode(CANSparkMax.IdleMode.kBrake);
-                chassis.getBackRight().setIdleMode(CANSparkMax.IdleMode.kBrake);
-                chassis.getFrontLeft().setIdleMode(CANSparkMax.IdleMode.kBrake);
-                chassis.getFrontRight().setIdleMode(CANSparkMax.IdleMode.kBrake);
-            } else {
-                chassis.getBackLeft().setIdleMode(CANSparkMax.IdleMode.kCoast);
-                chassis.getBackRight().setIdleMode(CANSparkMax.IdleMode.kCoast);
-                chassis.getFrontLeft().setIdleMode(CANSparkMax.IdleMode.kCoast);
-                chassis.getFrontRight().setIdleMode(CANSparkMax.IdleMode.kCoast);
-            }
-
         } catch (Exception ex) {
             DriverStation.reportError("Error communicating with drive system: " + ex.getMessage(), true);
         }
+    }
+
+    public void setBrake() {
+        chassis.getBackLeft().setIdleMode(CANSparkMax.IdleMode.kBrake);
+        chassis.getBackRight().setIdleMode(CANSparkMax.IdleMode.kBrake);
+        chassis.getFrontLeft().setIdleMode(CANSparkMax.IdleMode.kBrake);
+        chassis.getFrontRight().setIdleMode(CANSparkMax.IdleMode.kBrake);
+    }
+
+    public void setCoast() {
+        chassis.getBackLeft().setIdleMode(CANSparkMax.IdleMode.kCoast);
+        chassis.getBackRight().setIdleMode(CANSparkMax.IdleMode.kCoast);
+        chassis.getFrontLeft().setIdleMode(CANSparkMax.IdleMode.kCoast);
+        chassis.getFrontRight().setIdleMode(CANSparkMax.IdleMode.kCoast);
+    }
+
+    public void halfPower() {
+        power = 0.5;
+    }
+
+    public void fullPower() {
+        power = 1;
     }
 
     public double returnCurrentDraw() {

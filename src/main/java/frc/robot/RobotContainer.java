@@ -5,22 +5,18 @@
 
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.team8588.commands.DriveCommand;
 import frc.robot.team8588.subsystems.drive.DriveSubsystem;
-import frc.robot.team8588.subsystems.drive.arcade.ArcadeDriveChassis;
-import frc.robot.team8588.subsystems.drive.arcade.ArcadeDriveInputs;
-import frc.robot.team8588.subsystems.drive.arcade.ArcadeDriveSubsystem;
 import frc.robot.team8588.subsystems.drive.mecanum.MecanumDriveChassis;
 import frc.robot.team8588.subsystems.drive.mecanum.MecanumDriveInputs;
 import frc.robot.team8588.subsystems.drive.mecanum.MecanumDriveSubsystem;
-import frc.robot.team8588.subsystems.drive.tank.TankDriveChassis;
-import frc.robot.team8588.subsystems.drive.tank.TankDriveInputs;
-import frc.robot.team8588.subsystems.drive.tank.TankDriveSubsystem;
 import frc.robot.team8588.subsystems.intake.IntakeChassis;
-import frc.robot.team8588.subsystems.intake.IntakeInputs;
 import frc.robot.team8588.subsystems.intake.IntakeSubsystem;
 import frc.robot.team8588.usercontrol.GamepadF310;
 
@@ -42,7 +38,7 @@ public class RobotContainer
                         new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless),
                         new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless)
                 ),
-                new MecanumDriveInputs(gamepad::getLeftY, gamepad::getLeftX, gamepad::getRightX, gamepad::getLeftTrigger, gamepad::getRightTrigger, gamepad::getX, gamepad::getY));
+                new MecanumDriveInputs(gamepad::getLeftY, gamepad::getLeftX, gamepad::getRightX));
 
     private DriveCommand driveCommand = new DriveCommand(driveSubsystem);
 
@@ -52,15 +48,14 @@ public class RobotContainer
                     new CANSparkMax(6, CANSparkMaxLowLevel.MotorType.kBrushless),
                     new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushless),
                     new CANSparkMax(8, CANSparkMaxLowLevel.MotorType.kBrushless)
-            ),
-            new IntakeInputs(gamepad::getLeftBumper, gamepad::getRightBumper, gamepad::getA, gamepad::getB)
+            )
     );
 
     /** The container for the robot.  Contains subsystems, OI devices, and commands. */
-    public RobotContainer()
+    public RobotContainer(AHRS ahrs)
     {
         // Configure the button bindings
-        configureButtonBindings();
+        configureButtonBindings(ahrs);
     }
 
     /**
@@ -70,9 +65,48 @@ public class RobotContainer
      * {@link edu.wpi.first.wpilibj.XboxController XboxController}), and then passing it to a
      * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton JoystickButton}.
      */
-    private void configureButtonBindings()
+    private void configureButtonBindings(AHRS ahrs)
     {
+        // Brought to you by Val's lack of mental stability, his TIDAL playlist, and the WPILibJ2 command library.
 
+        // ABXY SECTION //
+
+        // When A is pressed, stop intake, indexer, and shooter
+        new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_A)
+                .whenPressed(new InstantCommand(intakeSubsystem::stopAll));
+
+        // While B is held, 50% power
+        new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_B)
+                .whenHeld(new InstantCommand(driveSubsystem::halfPower))
+                .whenReleased(new InstantCommand(driveSubsystem::fullPower));
+
+        // When X is pressed, toggle between braking and coasting
+        new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_X)
+                .toggleWhenPressed(new StartEndCommand(driveSubsystem::setBrake, driveSubsystem::setCoast, driveSubsystem));
+
+        // When Y is pressed, reset bot heading for Field Oriented Drive
+        new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_Y)
+                .whenPressed(new InstantCommand(ahrs::reset));
+
+        // BUMPERS AND TRIGGERS SECTION //
+
+        // When LB is pressed, intake IN
+        new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_LEFT_BUMPER)
+                .whenPressed(new InstantCommand(intakeSubsystem::intakeIn));
+
+        // When RB is pressed, intake OUT
+        new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_RIGHT_BUMPER)
+                .whenPressed(new InstantCommand(intakeSubsystem::intakeOut));
+
+        // When LT is held, spin up the flywheel to half speed, wait two seconds, then run indexer ( LOW SHOT )
+        new Trigger(gamepad::rightTriggerPressed)
+                .whileActiveOnce(new SequentialCommandGroup(new InstantCommand(intakeSubsystem::runFlywheelLOW), new WaitCommand(2), new InstantCommand(intakeSubsystem::runIndexerI)))
+                .whenInactive(new InstantCommand(intakeSubsystem::stopAll));
+
+        // When RT is held, spin up the flywheel to full speed, wait two seconds, then run indexer ( HIGH SHOT )
+        new Trigger(gamepad::leftTriggerPressed)
+                .whileActiveOnce(new SequentialCommandGroup(new InstantCommand(intakeSubsystem::runFlywheelHIGH), new WaitCommand(2), new InstantCommand(intakeSubsystem::runIndexerI)))
+                .whenInactive(new InstantCommand(intakeSubsystem::stopAll));
     }
 
     public DriveSubsystem getDriveSubsystem() {
@@ -84,13 +118,13 @@ public class RobotContainer
     }
 
     /**
-     * Use this to pass the autonomous command to the main {@link Robot} class.
+     * Use this to pass the teleop command to the main {@link Robot} class.
      *
-     * @return the command to run in autonomous
+     * @return the command to run in teleop
      */
     public DriveCommand getDriveCommand()
     {
-        // An ExampleCommand will run in autonomous
+        // driveCommand will run in teleop
         return driveCommand;
     }
 

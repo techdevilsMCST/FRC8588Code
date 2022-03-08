@@ -14,6 +14,7 @@ Date: 3/29/2021
 package frc.robot.team8588.subsystems.drive.arcade;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.team8588.subsystems.drive.DriveDirection;
@@ -23,6 +24,7 @@ import frc.robot.team8588.subsystems.drive.DriveSubsystem;
 public class ArcadeDriveSubsystem implements DriveSubsystem {
     private ArcadeDriveChassis chassis;
     private ArcadeDriveInputs inputs;
+    private double power = 1;
 
     public ArcadeDriveSubsystem(ArcadeDriveChassis chassis, ArcadeDriveInputs inputs) {
         this.chassis = chassis;
@@ -191,5 +193,28 @@ public class ArcadeDriveSubsystem implements DriveSubsystem {
     public double debug() {
         return 0;
     }
+
+    public void setBrake() {
+        chassis.getBackLeft().setIdleMode(CANSparkMax.IdleMode.kBrake);
+        chassis.getBackRight().setIdleMode(CANSparkMax.IdleMode.kBrake);
+        chassis.getFrontLeft().setIdleMode(CANSparkMax.IdleMode.kBrake);
+        chassis.getFrontRight().setIdleMode(CANSparkMax.IdleMode.kBrake);
+    }
+
+    public void setCoast() {
+        chassis.getBackLeft().setIdleMode(CANSparkMax.IdleMode.kCoast);
+        chassis.getBackRight().setIdleMode(CANSparkMax.IdleMode.kCoast);
+        chassis.getFrontLeft().setIdleMode(CANSparkMax.IdleMode.kCoast);
+        chassis.getFrontRight().setIdleMode(CANSparkMax.IdleMode.kCoast);
+    }
+
+    public void halfPower() {
+        power = 0.5;
+    }
+
+    public void fullPower() {
+        power = 1;
+    }
+
 }
 

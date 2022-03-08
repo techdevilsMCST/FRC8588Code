@@ -8,6 +8,7 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -32,6 +33,7 @@ public class RobotContainer
 {
     // The robot's subsystems and commands are defined here...
     private GamepadF310 gamepad = new GamepadF310(0);
+    private Joystick flightStick = new Joystick(1);
     private DriveSubsystem driveSubsystem = new MecanumDriveSubsystem(
                 new MecanumDriveChassis(
                         new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless),
@@ -39,8 +41,7 @@ public class RobotContainer
                         new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless),
                         new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless)
                 ),
-                new MecanumDriveInputs(gamepad::getLeftY, gamepad::getLeftX, gamepad::getRightX)
-    );
+                new MecanumDriveInputs(flightStick::getY, flightStick::getX, flightStick::getTwist));
 
 
     private IntakeSubsystem intakeSubsystem = new IntakeSubsystem(

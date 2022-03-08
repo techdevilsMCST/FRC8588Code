@@ -129,6 +129,7 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
 
     @Override
     public void setPowersFO(AHRS ahrs) {
+        double power = inputs.powerMultiplier.get();
         try {
             drive.driveCartesian(inputs.leftStickY.get() * -power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power, ahrs.getAngle() % 360);
             SmartDashboard.putNumber("Current Angle: ", ahrs.getAngle());

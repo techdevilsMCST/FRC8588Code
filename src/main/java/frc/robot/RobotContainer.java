@@ -32,8 +32,8 @@ import frc.robot.team8588.usercontrol.GamepadF310;
 public class RobotContainer
 {
     // The robot's subsystems and commands are defined here...
-    private GamepadF310 gamepad = new GamepadF310(0);
-    private Joystick flightStick = new Joystick(1);
+    private GamepadF310 gamepad = new GamepadF310(1);
+    private Joystick flightStick = new Joystick(0);
     private DriveSubsystem driveSubsystem = new MecanumDriveSubsystem(
                 new MecanumDriveChassis(
                         new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless),
@@ -41,7 +41,7 @@ public class RobotContainer
                         new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless),
                         new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless)
                 ),
-                new MecanumDriveInputs(flightStick::getY, flightStick::getX, flightStick::getTwist));
+                new MecanumDriveInputs(flightStick::getY, flightStick::getX, flightStick::getTwist, () -> (flightStick.getThrottle() * -1 + 1) / 2));
 
 
     private IntakeSubsystem intakeSubsystem = new IntakeSubsystem(
@@ -75,20 +75,22 @@ public class RobotContainer
         // Brought to you by Val's lack of mental stability, his TIDAL playlist, and the WPILibJ2 command library.
         // Thank God for inline definitions.
 
+        // When thumb button is pressed, toggle between braking and coasting
+        new JoystickButton(flightStick, 2)
+                .toggleWhenPressed(new StartEndCommand(driveSubsystem::setBrake, driveSubsystem::setCoast, driveSubsystem));
+
+
+
         // ABXY SECTION //
 
         // When A is pressed, stop intake, indexer, and shooter
         new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_A)
                 .whenPressed(new InstantCommand(intakeSubsystem::stopAll));
 
-        // While B is held, 35% power
-        new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_B)
-                .whenHeld(new RunCommand(driveSubsystem::halfPower))
-                .whenReleased(new RunCommand(driveSubsystem::fullPower));
+        // While B is held, NOTHING IS DONE
+        new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_B);
 
-        // When X is pressed, toggle between braking and coasting
-        new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_X)
-                .toggleWhenPressed(new StartEndCommand(driveSubsystem::setBrake, driveSubsystem::setCoast, driveSubsystem));
+        // When X is held, NOTHING IS DONE
 
         // When Y is pressed, reset bot heading for Field Oriented Drive
         new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_Y)
@@ -108,12 +110,12 @@ public class RobotContainer
 
         // When LT is held, spin up the flywheel to half speed, wait two seconds, then run indexer ( LOW SHOT )
         new Trigger(() -> { return gamepad.getLeftTrigger() > triggerThreshold; })
-                .whileActiveOnce(new SequentialCommandGroup(new InstantCommand(intakeSubsystem::runFlywheelLOW), new WaitCommand(2.5), new InstantCommand(intakeSubsystem::runIndexer)))
+                .whileActiveOnce(new SequentialCommandGroup(new InstantCommand(intakeSubsystem::runFlywheelLOW), new WaitCommand(1.5), new InstantCommand(intakeSubsystem::runIndexer)))
                 .whenInactive(new InstantCommand(intakeSubsystem::stopAll));
 
         // When RT is held, spin up the flywheel to full speed, wait two seconds, then run indexer ( HIGH SHOT )
         new Trigger(() -> { return gamepad.getRightTrigger() > triggerThreshold; })
-                .whileActiveOnce(new SequentialCommandGroup(new InstantCommand(intakeSubsystem::runFlywheelHIGH), new WaitCommand(3), new InstantCommand(intakeSubsystem::runIndexer)))
+                .whileActiveOnce(new SequentialCommandGroup(new InstantCommand(intakeSubsystem::runFlywheelHIGH), new WaitCommand(2.5), new InstantCommand(intakeSubsystem::runIndexer)))
                 .whenInactive(new InstantCommand(intakeSubsystem::stopAll));
     }
 

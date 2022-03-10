@@ -33,6 +33,10 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
                 chassis.getFrontRight(),
                 chassis.getBackRight()
         );
+        chassis.getFrontRight().setSmartCurrentLimit(40);
+        chassis.getFrontLeft().setSmartCurrentLimit(40);
+        chassis.getBackRight().setSmartCurrentLimit(40);
+        chassis.getBackLeft().setSmartCurrentLimit(40);
     }
 
     private void setMotors(double left, double right) {
@@ -131,7 +135,7 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
     public void setPowersFO(AHRS ahrs) {
         double power = inputs.powerMultiplier.get();
         try {
-            drive.driveCartesian(inputs.leftStickY.get() * -power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power, ahrs.getAngle() % 360);
+            drive.driveCartesian(inputs.leftStickY.get() * -power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power/*, ahrs.getAngle() % 360*/);
             SmartDashboard.putNumber("Current Angle: ", ahrs.getAngle());
 
             double temperature = (chassis.getBackLeft().getMotorTemperature() + chassis.getBackRight().getMotorTemperature() +chassis.getFrontLeft().getMotorTemperature() +chassis.getFrontRight().getMotorTemperature()) / 4;

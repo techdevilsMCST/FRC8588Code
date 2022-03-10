@@ -8,6 +8,7 @@ package frc.robot;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
@@ -63,6 +64,7 @@ public class Robot extends TimedRobot
         timer = new Timer();
         turnPID = new PIDController(0.015, 0.001, 0.001);
         drivePID = new PIDController(0.01, 0, 0);
+        CameraServer.startAutomaticCapture();
 
         try {
             ahrs = new AHRS(SPI.Port.kMXP); //the kMXP port is the expansion port for the roborio
@@ -219,6 +221,7 @@ public class Robot extends TimedRobot
         if (autonCommand != null)
         {
             // run auton??
+            autonCommand.cancel();
             autonCommand.schedule();
         }
 
@@ -236,6 +239,7 @@ public class Robot extends TimedRobot
     /** This method is called periodically during autonomous. */
     @Override
     public void autonomousPeriodic() {
+        subsystemIntake.periodic();
         //double turnAmount = turnPID.calculate(ahrs.getRotation2d().getDegrees(), 0);
 
         //subsystem.drive(turnAmount, DriveDirection.LEFT);

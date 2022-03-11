@@ -112,6 +112,9 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
 
         double position = Math.abs(chassis.getBackLeft().getEncoder().getPosition());
 
+        if(position >= Math.abs((int)location))
+            drive(0, DriveDirection.FORWARD);
+
         return position >= Math.abs((int)location); //use the back left encoder for position tracking (driving in a straight line, doesn't really matter which one we use for arcade)
     }
 

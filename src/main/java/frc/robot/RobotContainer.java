@@ -41,7 +41,15 @@ public class RobotContainer
                         new CANSparkMax(1, CANSparkMaxLowLevel.MotorType.kBrushless),
                         new CANSparkMax(4, CANSparkMaxLowLevel.MotorType.kBrushless)
                 ),
-                new MecanumDriveInputs(flightStick::getY, flightStick::getX, flightStick::getTwist, () -> (flightStick.getThrottle() * -1 + 1) / 2));
+                new MecanumDriveInputs(flightStick::getY, flightStick::getX, () -> {
+                    // twist deadzone implementation
+                    double state = flightStick.getTwist();
+                    double deadzone = 0.1;
+                    if (Math.abs(state) > deadzone)
+                        return state;
+                    else
+                        return (double) 0;
+                }, () -> (flightStick.getThrottle() * -1 + 1) / 2));
 
 
     private IntakeSubsystem intakeSubsystem = new IntakeSubsystem(

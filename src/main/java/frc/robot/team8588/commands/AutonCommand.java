@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.team8588.subsystems.drive.DriveSubsystem;
+import frc.robot.team8588.subsystems.drive.mecanum.MecanumDriveSubsystem;
 import frc.robot.team8588.subsystems.intake.IntakeSubsystem;
 
 public class AutonCommand extends SequentialCommandGroup {
@@ -18,7 +19,7 @@ public class AutonCommand extends SequentialCommandGroup {
         addRequirements(subsystem, intakeSubsystem);
         addCommands(
                 // Shoot a preloaded ball into low hoop
-                new InstantCommand(intakeSubsystem::runFlywheelHIGH),
+                new InstantCommand(intakeSubsystem::runFlywheelLOW),
                 new WaitCommand(2),
                 new InstantCommand(intakeSubsystem::runIndexer),
                 // wait for ball to get shot
@@ -28,7 +29,13 @@ public class AutonCommand extends SequentialCommandGroup {
                 // reset encoders
                 new InstantCommand(subsystem::resetEncoders),
                 // autobots, roll out
-                new RunCommand(() -> {subsystem.moveToPosition(-60,0.5);})
+                new RunCommand(() -> {
+                    boolean a = false;
+                    do {
+                        a = subsystem.moveToPosition(-35,0.15);
+                    }
+                    while (!a);
+                })
         );
     }
 }

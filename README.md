@@ -1,8 +1,7 @@
-# frc2021
-Tech Devils 2021 FRC Infinite Recharge code
+# FRC8588Code
+Tech Devils 2022 FRC RAPID REACT(SM) code
 
-Github Repo for the codebase for the FRC 2021 Season here at Morris County School Of Technology's Robotics Club. More info will be added here when it becomes avaliable including
-how to build and deploy code to our robot!
+GitHub Repo for the codebase for the FRC 2022 season for Morris County School of Technology's Robotics Team. 
 
 
 Robot Dimensions: 

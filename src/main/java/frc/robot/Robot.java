@@ -122,8 +122,8 @@ public class Robot extends TimedRobot
 
         /* Display Processed Acceleration Data (Linear Acceleration, Motion Detect) */
 
-        SmartDashboard.putNumber(   "IMU_Accel_X",          ahrs.getWorldLinearAccelX());
-        SmartDashboard.putNumber(   "IMU_Accel_Y",          ahrs.getWorldLinearAccelY());
+        //SmartDashboard.putNumber(   "IMU_Accel_X",          ahrs.getWorldLinearAccelX());
+        //SmartDashboard.putNumber(   "IMU_Accel_Y",          ahrs.getWorldLinearAccelY());
         //SmartDashboard.putBoolean(  "IMU_IsMoving",         ahrs.isMoving());
         //SmartDashboard.putBoolean(  "IMU_IsRotating",       ahrs.isRotating());
 
@@ -135,10 +135,10 @@ public class Robot extends TimedRobot
 
         // Also known as "So we were right to not use that for closed-loop control"
 
-        SmartDashboard.putNumber(   "Velocity_X",           ahrs.getVelocityX());
-        SmartDashboard.putNumber(   "Velocity_Y",           ahrs.getVelocityY());
-        SmartDashboard.putNumber(   "Displacement_X",       ahrs.getDisplacementX());
-        SmartDashboard.putNumber(   "Displacement_Y",       ahrs.getDisplacementY());
+        //SmartDashboard.putNumber(   "Velocity_X",           ahrs.getVelocityX());
+        //SmartDashboard.putNumber(   "Velocity_Y",           ahrs.getVelocityY());
+        //SmartDashboard.putNumber(   "Displacement_X",       ahrs.getDisplacementX());
+        //SmartDashboard.putNumber(   "Displacement_Y",       ahrs.getDisplacementY());
 
         /* Display Raw Gyro/Accelerometer/Magnetometer Values                       */
         /* NOTE:  These values are not normally necessary, but are made available   */

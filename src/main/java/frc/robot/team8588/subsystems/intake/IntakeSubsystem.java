@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 
 public class IntakeSubsystem implements Subsystem {
 
-    private final double intakePower = 0.45;
+    private final double intakePower = 0.50;
 
     private IntakeChassis chassis;
 
@@ -38,11 +38,11 @@ public class IntakeSubsystem implements Subsystem {
     }
 
     public void runFlywheelHIGH() {
-        chassis.getShooter().set(-1);
+        chassis.getShooter().set(-0.83);
     }
 
     public void runFlywheelLOW() {
-        chassis.getShooter().set(-0.5);
+        chassis.getShooter().set(-0.4);
     }
 
     public void runIndexer() {
@@ -60,13 +60,13 @@ public class IntakeSubsystem implements Subsystem {
     public void intakeIn() {
         chassis.getLeft().set(intakePower);
         chassis.getRight().set(-intakePower);
-        chassis.getIndexer().set(-1);
+        chassis.getIndexer().set(-0.35);
     }
 
     public void intakeOut() {
         chassis.getLeft().set(-intakePower);
         chassis.getRight().set(intakePower);
-        chassis.getIndexer().set(1);
+        chassis.getIndexer().set(0.35);
 
     }
 }

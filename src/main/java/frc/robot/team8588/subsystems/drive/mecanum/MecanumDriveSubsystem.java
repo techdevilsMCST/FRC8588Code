@@ -165,13 +165,20 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
         chassis.getFrontRight().setIdleMode(CANSparkMax.IdleMode.kCoast);
     }
 
+    public void STOP() {
+        setBrake();
+        chassis.getBackLeft().set(0);
+        chassis.getBackRight().set(0);
+        chassis.getFrontLeft().set(0);
+        chassis.getFrontRight().set(0);
+    }
+
     public void halfPower() {
         power = 0.35;
     }
 
-    // TODO CHANGE THIS TO "1" DURING COMP
     public void fullPower() {
-        power = 0.5;
+        power = 1;
     }
 
     public double returnCurrentDraw() {

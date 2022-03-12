@@ -14,17 +14,18 @@ public class MecanumDriveInputs {
     public final Supplier<Double> leftStickX;
     public final Supplier<Double> rightStickX;
     public final Supplier<Double> powerMultiplier;
-
+    public final Supplier<Boolean> isFieldOriented;
 
     public MecanumDriveInputs(Supplier<Double> leftStickY, Supplier<Double> leftStickX, Supplier<Double> rightStickX) {
-        this(leftStickY, leftStickX, rightStickX, () -> 1.0);
+        this(leftStickY, leftStickX, rightStickX, () -> 1.0, () -> true);
     }
 
-    public MecanumDriveInputs(Supplier<Double> leftStickY, Supplier<Double> leftStickX, Supplier<Double> rightStickX, Supplier<Double> powerMultiplier) {
+    public MecanumDriveInputs(Supplier<Double> leftStickY, Supplier<Double> leftStickX, Supplier<Double> rightStickX, Supplier<Double> powerMultiplier, Supplier<Boolean> isFieldOriented) {
         this.leftStickY = leftStickY;
         this.leftStickX = leftStickX;
         this.rightStickX = rightStickX;
         this.powerMultiplier = powerMultiplier;
+        this.isFieldOriented = isFieldOriented;
     }
 
 }

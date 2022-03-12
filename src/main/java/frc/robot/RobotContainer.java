@@ -49,7 +49,7 @@ public class RobotContainer
                         return state;
                     else
                         return (double) 0;
-                }, () -> (flightStick.getThrottle() * -1 + 1) / 2));
+                }, () -> (flightStick.getThrottle() * -1 + 1) / 2, () -> !flightStick.getTrigger()));
 
 
     private IntakeSubsystem intakeSubsystem = new IntakeSubsystem(
@@ -87,6 +87,9 @@ public class RobotContainer
         new JoystickButton(flightStick, 2)
                 .toggleWhenPressed(new StartEndCommand(driveSubsystem::setBrake, driveSubsystem::setCoast, driveSubsystem));
 
+        // Reset the ahrs when button 3 on flight stick is pressed (TODO)
+        new JoystickButton(flightStick, 3)
+                .toggleWhenPressed(new InstantCommand(ahrs::reset));
 
 
         // ABXY SECTION //
@@ -100,9 +103,9 @@ public class RobotContainer
 
         // When X is held, NOTHING IS DONE
 
-        // When Y is pressed, reset bot heading for Field Oriented Drive
-        new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_Y)
-                .whenPressed(new InstantCommand(ahrs::reset));
+//        // When Y is pressed, reset bot heading for Field Oriented Drive
+//        new JoystickButton(gamepad.joystick, GamepadF310.GAMEPAD_Y)
+//                .whenPressed(new InstantCommand(ahrs::reset));
 
         // BUMPERS AND TRIGGERS SECTION //
 

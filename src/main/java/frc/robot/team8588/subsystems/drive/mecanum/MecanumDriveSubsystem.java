@@ -16,7 +16,7 @@ import frc.robot.team8588.subsystems.drive.DriveSubsystem;
 
 public class MecanumDriveSubsystem implements DriveSubsystem {
 
-    private MecanumDriveInputs ;
+    private MecanumDriveInputs inputs;
     private MecanumDrive drive;
     private MecanumDriveChassis chassis;
 
@@ -138,7 +138,11 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
     public void setPowersFO(AHRS ahrs) {
         double power = inputs.powerMultiplier.get();
         try {
-            drive.driveCartesian(inputs.leftStickY.get() * -power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power, ahrs.getAngle() % 360);
+            if (inputs.isFieldOriented.get()) {
+                drive.driveCartesian(inputs.leftStickY.get() * -power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power, ahrs.getAngle() % 360);
+            } else {
+                drive.driveCartesian(inputs.leftStickY.get() * -power, inputs.leftStickX.get() * power, inputs.rightStickX.get() * power);
+            }
             SmartDashboard.putNumber("Current Angle: ", ahrs.getAngle());
 
             double temperature = (chassis.getBackLeft().getMotorTemperature() + chassis.getBackRight().getMotorTemperature() +chassis.getFrontLeft().getMotorTemperature() +chassis.getFrontRight().getMotorTemperature()) / 4;

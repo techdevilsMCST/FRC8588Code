@@ -32,7 +32,7 @@ public class AutonCommand extends SequentialCommandGroup {
                 new RunCommand(() -> {
                     boolean a = false;
                     do {
-                        a = subsystem.moveToPosition(-35,0.15);
+                        a = subsystem.moveToPosition(-35,0.4);
                     }
                     while (!a);
                 })

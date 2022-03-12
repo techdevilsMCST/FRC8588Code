@@ -1,0 +1,95 @@
+2022-03-09 00:52:17 INFO SWTOR Launcher [Core:U2021.0.44 Lib:MFeb.11.2022.16:12:34] initialized.
+2022-03-09 00:52:17 INFO File info: C:\Program Files\Electronic Arts\BioWare\Star Wars - The Old Republic\launcher.exe size=8047336, created=2/14/2022 19:0:4, accessed=3/9/2022 0:51:53, written=2/14/2022 19:0:4
+2022-03-09 00:52:17 INFO Initializing download manager
+2022-03-09 00:52:17 INFO Loaded settings from C:\Program Files\Electronic Arts\BioWare\Star Wars - The Old Republic\launcher-app.settings
+2022-03-09 00:52:18 INFO Loaded agreements from C:\Program Files\Electronic Arts\BioWare\Star Wars - The Old Republic\eula.settings
+2022-03-09 00:52:18 INFO Loaded settings from C:\Program Files\Electronic Arts\BioWare\Star Wars - The Old Republic\launcher.settings
+2022-03-09 00:52:18 INFO Sending crash dumps to [https://patcher-crash.swtor.com/crashcatch]
+2022-03-09 00:52:18 INFO completeLauncherInit()
+2022-03-09 00:52:18 INFO -----------------------------(300)-----------------------------
+2022-03-09 00:52:18 INFO Timezone: 300
+2022-03-09 00:52:25 INFO SpecsHash=3784166440.4222316187
+2022-03-09 00:52:29 INFO Checking for launcher update
+2022-03-09 00:52:30 ERROR Promos Error: Timeout
+2022-03-09 00:52:30 INFO ManifestState=GetManifest: , current=-1/upcoming=0/required=0
+2022-03-09 00:52:30 INFO Download: http://manifest.swtor.com/patch/patcher2021.patchmanifest (159.153.92.50 )
+2022-03-09 00:52:32 INFO Manifest Loaded: patcher2021, current=10/upcoming=-1/required=10
+2022-03-09 00:52:32 INFO ManifestState=GetManifest: patcher2021, current=-1/upcoming=-1/required=10
+2022-03-09 00:52:32 INFO Manifest Loaded: patcher2021, current=10/upcoming=-1/required=10
+2022-03-09 00:52:32 INFO ManifestState=Complete: patcher2021, current=10/upcoming=-1/required=10
+2022-03-09 00:52:32 INFO Patch completed normally (patcher2021)
+2022-03-09 00:52:32 INFO Patching end
+2022-03-09 00:52:32 INFO ManifestState=GetManifest: , current=-1/upcoming=0/required=0
+2022-03-09 00:52:32 INFO Download: http://manifest.swtor.com/patch/eualas.patchmanifest (159.153.92.50 )
+2022-03-09 00:52:33 INFO Manifest Loaded: eualas, current=0/upcoming=-1/required=0
+2022-03-09 00:52:33 INFO ManifestState=GetManifest: eualas, current=-1/upcoming=-1/required=0
+2022-03-09 00:52:33 INFO Manifest Loaded: eualas, current=0/upcoming=-1/required=0
+2022-03-09 00:52:33 INFO ManifestState=Complete: eualas, current=0/upcoming=-1/required=0
+2022-03-09 00:52:33 INFO Patch completed normally (eualas)
+2022-03-09 00:52:33 INFO Patching end
+2022-03-09 00:55:05 INFO User logs in.
+2022-03-09 00:55:06 INFO Retrieving patch notes for environment [swtor]
+2022-03-09 00:55:06 INFO Using environment.name [swtor], productName [retailclient]
+2022-03-09 00:55:06 INFO BitRaider is available for [swtor]
+2022-03-09 00:55:06 INFO Previous patching mode for [swtor] is [SSN]
+2022-03-09 00:55:06 INFO Patch selection action: GoStraightToSSN
+2022-03-09 00:55:06 INFO Starting game requirements check. Patching requirements using SSN.
+2022-03-09 00:55:06 INFO Chosen environment is swtor
+2022-03-09 00:55:07 INFO Forcing patch of VCRT2015-2019
+2022-03-09 00:55:07 INFO ManifestState=GetManifest: , current=-1/upcoming=0/required=0
+2022-03-09 00:55:07 INFO Download: http://manifest.swtor.com/patch/vc2017.patchmanifest (159.153.92.50 )
+2022-03-09 00:55:08 INFO Manifest Loaded: vc2017, current=0/upcoming=-1/required=0
+2022-03-09 00:55:08 INFO ManifestState=GetManifest: vc2017, current=-1/upcoming=-1/required=0
+2022-03-09 00:55:08 INFO Manifest Loaded: vc2017, current=0/upcoming=-1/required=0
+2022-03-09 00:55:08 INFO ManifestState=Complete: vc2017, current=0/upcoming=-1/required=0
+2022-03-09 00:55:08 INFO Patch completed normally (vc2017)
+2022-03-09 00:55:08 INFO Patching end
+2022-03-09 00:55:09 INFO Launching update of VCRT2015-2019 due to it not being installed. 
+2022-03-09 00:55:09 INFO Starting game requirements check. Patching requirements using SSN.
+2022-03-09 00:55:09 INFO Chosen environment is swtor
+2022-03-09 00:55:10 INFO Starting patch of product retailclient_swtor
+2022-03-09 00:55:10 INFO ManifestState=GetManifest: , current=-1/upcoming=0/required=0
+2022-03-09 00:55:10 INFO Download: http://manifest.swtor.com/patch/retailclient_swtor.patchmanifest (159.153.92.50 )
+2022-03-09 00:55:11 INFO Manifest Loaded: retailclient_swtor, current=294/upcoming=-1/required=294
+2022-03-09 00:55:11 INFO Dependency Set: http://manifest.swtor.com/patch/movies_en_us.patchmanifest
+2022-03-09 00:55:11 INFO ManifestState=Dependency: retailclient_swtor, current=294/upcoming=-1/required=294
+2022-03-09 00:55:11 INFO ManifestState=GetManifest: , current=-1/upcoming=0/required=0
+2022-03-09 00:55:11 INFO Download: http://manifest.swtor.com/patch/movies_en_us.patchmanifest (159.153.92.50 )
+2022-03-09 00:55:11 INFO Manifest Loaded: movies_en_us, current=9/upcoming=-1/required=9
+2022-03-09 00:55:11 INFO ManifestState=Complete: movies_en_us, current=9/upcoming=-1/required=9
+2022-03-09 00:55:11 INFO Dependency Set: http://manifest.swtor.com/patch/assets_swtor_main.patchmanifest
+2022-03-09 00:55:11 INFO ManifestState=Dependency: retailclient_swtor, current=294/upcoming=-1/required=294
+2022-03-09 00:55:11 INFO ManifestState=GetManifest: , current=-1/upcoming=0/required=0
+2022-03-09 00:55:11 INFO Download: http://manifest.swtor.com/patch/assets_swtor_main.patchmanifest (159.153.92.50 )
+2022-03-09 00:55:12 INFO Manifest Loaded: assets_swtor_main, current=352/upcoming=-1/required=352
+2022-03-09 00:55:12 INFO ManifestState=Complete: assets_swtor_main, current=352/upcoming=-1/required=352
+2022-03-09 00:55:12 INFO Dependency Set: http://manifest.swtor.com/patch/assets_swtor_en_us.patchmanifest
+2022-03-09 00:55:12 INFO ManifestState=Dependency: retailclient_swtor, current=294/upcoming=-1/required=294
+2022-03-09 00:55:12 INFO ManifestState=GetManifest: , current=-1/upcoming=0/required=0
+2022-03-09 00:55:12 INFO Download: http://manifest.swtor.com/patch/assets_swtor_en_us.patchmanifest (159.153.92.50 )
+2022-03-09 00:55:13 INFO Manifest Loaded: assets_swtor_en_us, current=357/upcoming=-1/required=357
+2022-03-09 00:55:13 INFO ManifestState=Complete: assets_swtor_en_us, current=357/upcoming=-1/required=357
+2022-03-09 00:55:13 INFO ManifestState=GetManifest: retailclient_swtor, current=-1/upcoming=-1/required=294
+2022-03-09 00:55:13 INFO Manifest Loaded: retailclient_swtor, current=294/upcoming=-1/required=294
+2022-03-09 00:55:13 INFO Dependency Set: http://manifest.swtor.com/patch/movies_en_us.patchmanifest
+2022-03-09 00:55:13 INFO ManifestState=Dependency: retailclient_swtor, current=294/upcoming=-1/required=294
+2022-03-09 00:55:13 INFO ManifestState=GetManifest: movies_en_us, current=-1/upcoming=-1/required=9
+2022-03-09 00:55:13 INFO Manifest Loaded: movies_en_us, current=9/upcoming=-1/required=9
+2022-03-09 00:55:13 INFO ManifestState=Complete: movies_en_us, current=9/upcoming=-1/required=9
+2022-03-09 00:55:13 INFO Dependency Set: http://manifest.swtor.com/patch/assets_swtor_main.patchmanifest
+2022-03-09 00:55:13 INFO ManifestState=Dependency: retailclient_swtor, current=294/upcoming=-1/required=294
+2022-03-09 00:55:13 INFO ManifestState=GetManifest: assets_swtor_main, current=-1/upcoming=-1/required=352
+2022-03-09 00:55:13 INFO Manifest Loaded: assets_swtor_main, current=352/upcoming=-1/required=352
+2022-03-09 00:55:13 INFO ManifestState=Complete: assets_swtor_main, current=352/upcoming=-1/required=352
+2022-03-09 00:55:13 INFO Dependency Set: http://manifest.swtor.com/patch/assets_swtor_en_us.patchmanifest
+2022-03-09 00:55:13 INFO ManifestState=Dependency: retailclient_swtor, current=294/upcoming=-1/required=294
+2022-03-09 00:55:13 INFO ManifestState=GetManifest: assets_swtor_en_us, current=-1/upcoming=-1/required=357
+2022-03-09 00:55:13 INFO Manifest Loaded: assets_swtor_en_us, current=357/upcoming=-1/required=357
+2022-03-09 00:55:13 INFO ManifestState=Complete: assets_swtor_en_us, current=357/upcoming=-1/required=357
+2022-03-09 00:55:13 INFO ManifestState=Complete: retailclient_swtor, current=294/upcoming=-1/required=294
+2022-03-09 00:55:13 INFO Patch completed normally (retailclient_swtor)
+2022-03-09 00:55:13 INFO Patching end
+2022-03-09 00:55:21 INFO Using environment.name [swtor], productName [retailclient]
+2022-03-09 00:55:21 INFO User pressed play (retailclient,en-us,swtor)
+2022-03-09 00:55:22 INFO Game successfully launched: C:\Program Files\Electronic Arts\BioWare\Star Wars - The Old Republic\swtor\RetailClient\swtor.exe
+2022-03-09 00:55:22 INFO Closed launcher

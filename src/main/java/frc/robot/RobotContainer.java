@@ -49,7 +49,7 @@ public class RobotContainer
                         return state;
                     else
                         return (double) 0;
-                }, () -> (flightStick.getThrottle() * -1 + 1) / 2, () -> !flightStick.getTrigger()));
+                }, () -> 0.1, () -> false)); //(flightStick.getThrottle() * -1 + 1) / 2        !flightStick.getTrigger()
 
 
     private IntakeSubsystem intakeSubsystem = new IntakeSubsystem(

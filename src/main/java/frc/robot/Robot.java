@@ -416,7 +416,7 @@ public class Robot extends TimedRobot
         driveCommand.execute(ahrs);
 
         // send intake telemetry
-        subsystemIntake.periodic();
+        //subsystemIntake.periodic();
     }
 
     @Override

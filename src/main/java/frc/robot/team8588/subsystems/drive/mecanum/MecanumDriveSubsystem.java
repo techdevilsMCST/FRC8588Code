@@ -20,7 +20,7 @@ public class MecanumDriveSubsystem implements DriveSubsystem {
     private MecanumDrive drive;
     private MecanumDriveChassis chassis;
 
-    private double power = 1;
+    private double power = 0.01;
 
     public MecanumDriveSubsystem(MecanumDriveChassis chassis, MecanumDriveInputs inputs) {
         this.inputs = inputs;
